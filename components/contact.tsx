@@ -38,7 +38,7 @@ export default function Contact() {
       </h2>
 
       <div className="mt-10 grid gap-px border border-night bg-night sm:grid-cols-2 lg:grid-cols-4">
-        <button onClick={copy} className="group bg-volt p-5 text-left transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night">
+        <button onClick={copy} className="group bg-volt p-5 text-left transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night active:text-volt">
           <span className="label block opacity-60" aria-live="polite">{copied ? "Copied to clipboard" : "Email · click to copy"}</span>
           <span className="mt-6 block break-all text-lg">{email}</span>
         </button>
@@ -51,7 +51,7 @@ export default function Contact() {
             key={href}
             href={href}
             {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
-            className="bg-volt p-5 transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night"
+            className="bg-volt p-5 transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night active:text-volt"
           >
             <span className="label block opacity-60">{label}</span>
             <span className="mt-6 block text-lg">{text}</span>

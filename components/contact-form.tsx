@@ -9,8 +9,9 @@ export type FormState = { status: "idle" | "sent" | "error"; message?: string; f
 const email = "itsamalshaji@gmail.com";
 const topics = ["A role on your team", "A website", "An online store", "A web app", "Something else"];
 
+// Focus shows as a heavier accent underline, not a box: the site-wide focus ring is switched off for these fields only.
 const field =
-  "mt-2 w-full border-b border-line bg-transparent pb-3 text-lg text-bone outline-none transition-colors duration-150 placeholder:text-mute/60 hover:border-mute focus-visible:border-accent";
+  "mt-2 w-full border-b border-line bg-transparent pb-3 text-lg text-bone outline-none! transition-[border-color,box-shadow] duration-150 placeholder:text-mute/60 hover:border-mute focus-visible:border-accent focus-visible:shadow-[0_1px_0_0_var(--accent)]";
 
 function Label({ htmlFor, children, optional }: { htmlFor: string; children: React.ReactNode; optional?: boolean }) {
   return (
@@ -81,7 +82,7 @@ export default function ContactForm() {
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4 sm:col-span-2">
         <button
           disabled={pending}
-          className="border border-volt bg-volt px-7 py-4 font-medium text-night transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:bg-bone/80 disabled:cursor-wait disabled:opacity-60"
+          className="border border-volt bg-volt px-7 py-4 font-medium text-night transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:bg-bone/80 active:text-ink disabled:cursor-wait disabled:opacity-60"
         >
           {pending ? "Sending…" : "Send message →"}
         </button>

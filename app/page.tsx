@@ -100,14 +100,14 @@ export default function Home() {
               <div className="after-load mt-10 flex flex-wrap gap-4" style={{ "--d": "600ms" } as React.CSSProperties}>
                 <Link
                   href="/contact"
-                  className="border border-volt bg-volt px-6 py-3.5 font-medium text-night transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:bg-bone/80"
+                  className="border border-volt bg-volt px-6 py-3.5 font-medium text-night transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:bg-bone/80 active:text-ink"
                 >
                   Got a project?
                 </Link>
                 <a
                   href="/Amal-Shaji-CV.pdf"
                   download
-                  className="border border-accent px-6 py-3.5 font-medium transition-colors duration-150 hover:bg-accent hover:text-ink active:bg-accent/80"
+                  className="border border-accent px-6 py-3.5 font-medium transition-colors duration-150 hover:bg-accent hover:text-ink active:bg-accent/80 active:text-ink"
                 >
                   My resume
                 </a>
