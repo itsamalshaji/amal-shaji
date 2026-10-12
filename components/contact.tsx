@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Clock } from "./nav";
 import ReactiveLine from "./reactive-line";
 
 const email = "itsamalshaji@gmail.com";
@@ -62,9 +61,6 @@ export default function Contact() {
 
       <div className="label mt-10 flex flex-wrap justify-between gap-3">
         <span>© 2026 Amal Shaji</span>
-        <span>
-          Alappuzha, Kerala · <Clock />
-        </span>
         <a href="#top" className="underline-offset-4 hover:underline">Back to top ↑</a>
       </div>
     </footer>

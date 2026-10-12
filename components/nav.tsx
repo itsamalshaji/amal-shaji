@@ -40,10 +40,23 @@ function ThemeToggle() {
     if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) apply();
     else document.startViewTransition(apply);
   };
+  // A switch whose knob slides and swaps sun for moon; position and icon follow [data-theme] in CSS, so there is no state to hydrate.
   return (
-    <button onClick={toggle} aria-label="Switch between dark and light theme" className="label opacity-80 transition-opacity duration-150 hover:opacity-100">
-      ◐ <span className="theme-dark-only">Light</span>
-      <span className="theme-light-only">Dark</span>
+    <button
+      onClick={toggle}
+      aria-label="Switch between light and dark theme"
+      title="Switch theme"
+      className="relative h-6 w-12 shrink-0 border border-current/40 transition-colors duration-150 hover:border-current active:bg-current/10"
+    >
+      <span className="absolute left-0.5 top-0.5 grid size-[1.125rem] place-items-center bg-volt text-night transition-transform duration-300 ease-out [[data-theme=dark]_&]:translate-x-6">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden className="theme-light-only size-3">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="theme-dark-only size-3">
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" />
+        </svg>
+      </span>
     </button>
   );
 }

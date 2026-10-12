@@ -1,5 +1,5 @@
 import {
-  siClaude, siDjango, siGit, siGithub, siGoogleanalytics, siHubspot, siJavascript, siMeta, siNextdotjs, siPhp, siPostgresql,
+  siClaude, siCloudflare, siDjango, siGit, siGithub, siGoogleanalytics, siHubspot, siJavascript, siMeta, siNextdotjs, siPhp, siPostgresql,
   siRazorpay, siReact, siResend, siShopify, siSupabase, siTypescript, siVercel, siVite, siWhatsapp, siWordpress,
 } from "simple-icons";
 import Link from "next/link";
@@ -49,7 +49,7 @@ const stack = [
   tool(siGit), tool(siGithub), tool(siResend), tool(siWhatsapp, "WhatsApp API"), tool(siGoogleanalytics, "Analytics 4"), tool(siMeta, "Meta Ads"), tool(siClaude, "Claude Code"),
 ];
 
-const strip = [siReact, siNextdotjs, siTypescript, siJavascript, siSupabase, siVite, siGit];
+const strip = [siReact, siNextdotjs, siTypescript, siJavascript, siSupabase, siVite, siGit, siGithub, siVercel, siCloudflare];
 
 function Logo({ icon, className = "" }: { icon: Icon; className?: string }) {
   return (
@@ -118,14 +118,19 @@ export default function Home() {
             </div>
           </div>
 
-          <ul className="after-load flex flex-wrap justify-between gap-x-8 gap-y-3 bg-ink-2 px-5 py-6 text-lg text-mute md:px-8 md:text-xl" style={{ "--d": "800ms" } as React.CSSProperties}>
-            {strip.map((icon) => (
-              <li key={icon.title} className="flex items-center gap-2.5">
-                <Logo icon={icon} className="size-5" />
-                {icon.title}
-              </li>
-            ))}
-          </ul>
+          {/* One line that drifts left forever: the list is repeated four times and the track slides by exactly one copy. */}
+          <div className="after-load marquee bg-ink-2 py-6 text-lg text-mute md:text-xl" style={{ "--d": "800ms" } as React.CSSProperties}>
+            <ul className="marquee-track">
+              {Array.from({ length: 4 }, (_, copy) =>
+                strip.map((icon) => (
+                  <li key={`${copy}-${icon.title}`} aria-hidden={copy > 0 || undefined} className="flex shrink-0 items-center gap-2.5 whitespace-nowrap pr-12 md:pr-16">
+                    <Logo icon={icon} className="size-5" />
+                    {icon.title}
+                  </li>
+                )),
+              )}
+            </ul>
+          </div>
         </section>
 
         <Gallery />
