@@ -38,7 +38,7 @@ export default function Gallery() {
 
   return (
     <section ref={ref} aria-label="Screens from shipped projects" className="overflow-hidden py-16 md:py-24">
-      <p className="label mb-6 flex justify-between px-5 text-mute md:px-8">
+      <p className="label mb-6 flex justify-between gutter text-mute">
         <span>Screens from shipped projects</span>
         <span>Not mockups</span>
       </p>

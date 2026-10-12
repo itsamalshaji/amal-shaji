@@ -27,6 +27,9 @@
   color-scheme: light;
 }
 
+/* The sticky, fixed-height project cards only make sense with room to spare: wide AND reasonably tall. */
+@custom-variant desk (@media (min-width: 64rem) and (min-height: 40rem));
+
 @theme inline {
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
@@ -108,12 +111,28 @@ html[data-loaded] .hero-letter { transform: none; }
 html[data-loaded] .hero-ring { stroke-dashoffset: 0; }
 html[data-loaded] .after-load { opacity: 1; transform: none; }
 
-/* Stacking project cards. Wide screens: each card is pinned centred in a full-height slot.
-   Narrow screens: a card taller than the screen scrolls until its bottom edge arrives, then pins while the next one slides over it. */
+/* Stacking project cards. Wide, tall screens: each card is pinned centred in a full-height slot.
+   Narrow or short screens: a card taller than the screen scrolls until its bottom edge arrives, then pins while the next one slides over it. */
 .stack-card { position: sticky; top: min(var(--pin, 0.75rem), calc(100svh - var(--h, 0px) - 0.75rem)); }
-@media (min-width: 64rem) {
+@media (min-width: 64rem) and (min-height: 40rem) {
   .stack-card { top: 0; }
 }
+
+/* Route changes: the incoming page rises and fades in (see app/template.tsx). */
+.page-enter { animation: page-enter 600ms var(--ease-out) both; }
+@keyframes page-enter { from { opacity: 0; transform: translateY(16px); } }
+
+/* Page gutter: 20px on phones, 32px from tablets up. Past roughly 1750px the content column stops growing and the gutter absorbs the rest,
+   so ultra-wide screens get the same composition as a large laptop instead of a stretched one. Backgrounds stay full-bleed. */
+.gutter { padding-inline: 1.25rem; }
+@media (min-width: 48rem) {
+  .gutter { padding-inline: max(2rem, calc((100vw - 105rem) / 2)); }
+}
+
+/* FAQ answers ease open where the browser can animate to an automatic height; elsewhere they simply open. */
+:root { interpolate-size: allow-keywords; }
+details::details-content { block-size: 0; overflow: clip; transition: block-size 400ms var(--ease-out), content-visibility 400ms allow-discrete; }
+details[open]::details-content { block-size: auto; }
 
 /* Tech strip: a single line that loops. Hover pauses it; reduced motion gets a static, swipeable row. */
 .marquee { overflow: hidden; mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
@@ -134,6 +153,8 @@ html[data-loaded] .after-load { opacity: 1; transform: none; }
   .preloader { display: none; }
   .hero-letter, .after-load { transform: none; opacity: 1; transition: none; }
   .hero-ring { stroke-dashoffset: 0; transition: none; }
+  .page-enter { animation: none; }
+  details::details-content { transition: none; }
   .marquee { overflow-x: auto; mask-image: none; }
   .marquee-track { animation: none; padding-inline: 1.25rem; }
   .marquee-track li[aria-hidden] { display: none; }

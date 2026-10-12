@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import ReactiveLine from "./reactive-line";
+import { FadeUp } from "./reveal";
 
 const email = "itsamalshaji@gmail.com";
 
@@ -19,7 +20,7 @@ export default function Contact() {
   };
 
   return (
-    <footer id="contact" className="on-volt relative z-45 bg-volt px-5 pb-6 pt-20 text-night md:px-8 md:pt-32">
+    <footer id="contact" className="on-volt relative z-45 bg-volt gutter pb-6 pt-20 text-night md:pt-32">
       <div className="grid gap-8 lg:grid-cols-12">
         <p className="label lg:col-span-3">Contact</p>
         <p className="max-w-[30ch] text-xl leading-snug md:text-2xl lg:col-span-6">
@@ -37,7 +38,7 @@ export default function Contact() {
         <ReactiveLine text="LET’S TALK" className="flex" fill={0.8} />
       </h2>
 
-      <div className="mt-10 grid gap-px border border-night bg-night sm:grid-cols-2 lg:grid-cols-4">
+      <FadeUp className="mt-10 grid gap-px border border-night bg-night sm:grid-cols-2 xl:grid-cols-4">
         <button onClick={copy} className="group bg-volt p-5 text-left transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night active:text-volt">
           <span className="label block opacity-60" aria-live="polite">{copied ? "Copied to clipboard" : "Email · click to copy"}</span>
           <span className="mt-6 block break-all text-lg">{email}</span>
@@ -57,7 +58,7 @@ export default function Contact() {
             <span className="mt-6 block text-lg">{text}</span>
           </a>
         ))}
-      </div>
+      </FadeUp>
 
       <div className="label mt-10 flex flex-wrap justify-between gap-3">
         <span>© 2026 Amal Shaji</span>

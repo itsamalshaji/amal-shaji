@@ -5,7 +5,7 @@ import { categories, works, type Category } from "@/lib/works";
 /** A plain-text brief for language models: who Amal is, what he has built, and how to reach him. */
 export function GET() {
   const groups = (Object.keys(categories) as Category[])
-    .map((c) => `### ${categories[c]}\n${works.filter((w) => w.category === c).map((w) => `- [${w.name}](${w.url}): ${w.blurb}${w.tech ? ` Built with ${w.tech.join(", ")}.` : ""}`).join("\n")}`)
+    .map((c) => `### ${categories[c]}\n${works.filter((w) => w.category === c).map((w) => `- ${w.url ? `[${w.name}](${w.url})` : `${w.name} (private admin panel)`}: ${w.blurb}${w.tech ? ` Built with ${w.tech.join(", ")}.` : ""}`).join("\n")}`)
     .join("\n\n");
 
   const body = `# ${site.name}

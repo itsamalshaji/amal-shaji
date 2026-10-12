@@ -11,17 +11,22 @@ export type Work = {
   slug: string; // also the screenshot: /works/<slug>.jpg
   name: string;
   blurb: string;
-  url: string;
+  url?: string; // absent for work that sits behind a login, such as admin panels
   category: Category;
   tech?: string[]; // only where it's known, never guessed
+  screens?: [label: string, file: string][]; // more than one view of the same work; the card lets you flip between them (private work only)
 };
 
 export const works: Work[] = [
   { slug: "ntbr", name: "Nehru Trophy Boat Race", blurb: "Event site, online booking and gate scanning for the 72nd race.", url: "https://www.nehrutrophyboatrace.org", category: "apps", tech: ["Next.js", "Supabase"] },
+  { slug: "ntbr-admin", name: "Boat Race Admin", blurb: "Admin for orders, attendees, inventory, the scan log and exchanging 32,125 paper tickets for gatepasses.", category: "apps", tech: ["Next.js", "Supabase"] },
   { slug: "linen", name: "Linen Centre", blurb: "Online store for a Kerala linen apparel and fabric brand.", url: "https://www.linencentre.com", category: "shop", tech: ["Next.js", "Supabase"] },
+  { slug: "linen-admin", name: "Linen Centre Admin", blurb: "Custom admin panel for stock, orders and enquiries, synced with the live store.", category: "apps", tech: ["React", "Supabase"] },
   { slug: "cipherpeak-erp", name: "CipherPeak ERP", blurb: "Enterprise platform frontend spanning 38 modules.", url: "https://ciphererp.vercel.app", category: "apps", tech: ["React"] },
   { slug: "buildcrest", name: "Build Crest", blurb: "Building-materials catalogue for a UAE trading company.", url: "https://buildcrest.ae", category: "shop", tech: ["Next.js", "Supabase"] },
+  { slug: "buildcrest-admin", name: "Build Crest Admin", blurb: "Admin panel for managing products, brands, enquiries and the storefront.", category: "apps", tech: ["React", "Supabase"] },
   { slug: "imagecottons", name: "Image Cottons", blurb: "Handloom and hand-block textile store.", url: "https://www.imagecottons.in", category: "shop", tech: ["Next.js", "Supabase"] },
+  { slug: "imagecottons-admin", name: "Image Cottons Admin", blurb: "Store admin for catalogue, stock, orders, offers, coupons and shipping zones.", category: "apps", tech: ["React", "Supabase"], screens: [["Dashboard", "imagecottons-admin"], ["Sign in", "imagecottons-admin-login"]] },
   { slug: "setrix", name: "Setrix Logistics", blurb: "Dubai customs clearance and shipping agency.", url: "https://www.setrix.me", category: "business", tech: ["Next.js"] },
   { slug: "erreka", name: "Erreka Doors", blurb: "Automatic entrance solutions in the UAE.", url: "https://errekadoors.com", category: "business", tech: ["Next.js"] },
   { slug: "weinber", name: "Weinber Inc.", blurb: "Product catalogue for an automotive detailing brand.", url: "https://weinberinc.com", category: "shop" },

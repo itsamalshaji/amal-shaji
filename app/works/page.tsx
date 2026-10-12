@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Contact from "@/components/contact";
-import { Reveal } from "@/components/reveal";
+import { FadeUp, Reveal } from "@/components/reveal";
 import WorksGrid from "@/components/works-grid";
 import JsonLd from "@/components/json-ld";
 import { pageMeta, worksLd } from "@/lib/seo";
@@ -16,7 +16,7 @@ export default function WorksPage() {
   return (
     <>
       <JsonLd data={worksLd()} />
-      <main className="px-5 pb-24 pt-32 md:px-8 md:pb-40 md:pt-44">
+      <main className="gutter pb-24 pt-32 md:pb-40 md:pt-44">
         <p className="label flex justify-between text-mute">
           <span>(Works)</span>
           <span>{works.length} projects</span>
@@ -29,12 +29,12 @@ export default function WorksPage() {
             </Reveal>
           </h1>
           <p className="max-w-[34ch] text-lg text-mute md:text-xl lg:col-span-4 lg:pb-4">
-            Client sites, online stores and platforms I&rsquo;ve built or led. Every card opens the real thing.
+            Client sites, online stores, admin panels and platforms I&rsquo;ve built or led. Public ones open the live site.
           </p>
         </div>
-        <div className="mt-14 border-t border-line pt-8 md:mt-20">
+        <FadeUp delay={0.15} className="mt-14 border-t border-line pt-8 md:mt-20">
           <WorksGrid />
-        </div>
+        </FadeUp>
       </main>
       <Contact />
     </>

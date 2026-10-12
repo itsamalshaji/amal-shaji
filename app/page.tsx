@@ -73,7 +73,7 @@ export default function Home() {
       <main>
         {/* Hero */}
         <section className="relative flex min-h-svh flex-col overflow-hidden">
-          <div className="grid flex-1 items-center gap-12 px-5 pt-28 md:px-8 lg:grid-cols-[1.15fr_1fr] lg:gap-8 lg:pt-24">
+          <div className="grid flex-1 items-center gap-12 gutter pt-28 lg:grid-cols-[1.15fr_1fr] lg:gap-8 lg:pt-20">
             <div className="lg:pb-10">
               <p className="after-load text-4xl font-bold tracking-tight md:text-5xl">
                 Hello<span className="text-accent">.</span>
@@ -107,7 +107,7 @@ export default function Home() {
                 <a
                   href="/Amal-Shaji-CV.pdf"
                   download
-                  className="border border-accent px-6 py-3.5 font-medium transition-colors duration-150 hover:bg-accent hover:text-ink active:bg-accent/80 active:text-ink"
+                  className="border border-accent px-6 py-3.5 font-medium transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:border-bone active:bg-bone/80 active:text-ink"
                 >
                   My resume
                 </a>
@@ -150,7 +150,7 @@ export default function Home() {
         <Work />
 
         {/* Experience */}
-        <section id="experience" className="on-bone mt-24 bg-bone px-5 py-20 text-ink lg:mt-8 md:px-8 md:py-32">
+        <section id="experience" className="on-bone mt-24 bg-bone gutter py-20 text-ink lg:mt-8 md:py-32">
           <div className="grid items-end gap-6 lg:grid-cols-12">
             <p className="label text-ink/60 lg:col-span-3">(03) Experience</p>
             <h2 className="display text-[clamp(3.5rem,11vw,10rem)] lg:col-span-9">
@@ -161,17 +161,19 @@ export default function Home() {
 
           <ol className="mt-16 md:mt-24">
             {experience.map((e) => (
-              <li key={e.role} className="group grid gap-4 border-t border-ink/20 py-8 lg:grid-cols-12 lg:py-10">
-                <p className="label pt-1.5 text-ink/60 lg:col-span-3">{e.when}</p>
-                <div className="lg:col-span-4">
-                  <h3 className="display widen text-3xl md:text-4xl">{e.role}</h3>
-                  <p className="mt-2 text-sm text-ink/60">{e.org}</p>
-                </div>
-                <ul className="max-w-[60ch] space-y-3 text-[0.9375rem] lg:col-span-5">
-                  {e.points.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
+              <li key={e.role}>
+                <FadeUp className="group grid gap-4 border-t border-ink/20 py-8 lg:grid-cols-12 lg:py-10">
+                  <p className="label pt-1.5 text-ink/60 lg:col-span-3">{e.when}</p>
+                  <div className="lg:col-span-4">
+                    <h3 className="display widen text-3xl md:text-4xl">{e.role}</h3>
+                    <p className="mt-2 text-sm text-ink/60">{e.org}</p>
+                  </div>
+                  <ul className="max-w-[60ch] space-y-3 text-[0.9375rem] lg:col-span-5">
+                    {e.points.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                </FadeUp>
               </li>
             ))}
           </ol>
@@ -197,7 +199,7 @@ export default function Home() {
         </section>
 
         {/* Stack */}
-        <section id="stack" className="px-5 py-20 md:px-8 md:py-32">
+        <section id="stack" className="gutter py-20 md:py-32">
           <div className="grid items-end gap-6 lg:grid-cols-12">
             <p className="label text-mute lg:col-span-3">(04) Stack</p>
             <h2 className="display text-[clamp(3.5rem,11vw,10rem)] lg:col-span-9">
@@ -205,17 +207,19 @@ export default function Home() {
               <Reveal delay={0.08}>reach for</Reveal>
             </h2>
           </div>
-          <ul className="mt-16 grid grid-cols-3 border-l border-t border-line sm:grid-cols-4 md:mt-24 lg:grid-cols-7">
-            {stack.map(({ icon, name }) => (
-              <li
-                key={name}
-                className="flex aspect-[4/3] flex-col items-center justify-center gap-3 border-b border-r border-line text-center transition-colors duration-150 hover:bg-volt hover:text-night"
-              >
-                <Logo icon={icon} className="size-7 md:size-8" />
-                <span className="label">{name}</span>
-              </li>
-            ))}
-          </ul>
+          <FadeUp className="mt-16 md:mt-24">
+            <ul className="grid grid-cols-3 border-l border-t border-line sm:grid-cols-4 lg:grid-cols-7">
+              {stack.map(({ icon, name }) => (
+                <li
+                  key={name}
+                  className="flex aspect-[4/3] flex-col items-center justify-center gap-3 border-b border-r border-line text-center transition-colors duration-150 hover:bg-volt hover:text-night"
+                >
+                  <Logo icon={icon} className="size-7 md:size-8" />
+                  <span className="label">{name}</span>
+                </li>
+              ))}
+            </ul>
+          </FadeUp>
           <FadeUp className="label mt-8 grid gap-4 text-mute lg:grid-cols-12">
             <p className="lg:col-span-3">Also</p>
             <p className="leading-relaxed lg:col-span-9">

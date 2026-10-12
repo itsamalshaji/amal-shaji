@@ -1,10 +1,10 @@
 import { faq } from "@/lib/faq";
-import { Reveal } from "./reveal";
+import { FadeUp, Reveal } from "./reveal";
 
 /** Direct answers to the questions people (and answer engines) ask; mirrored in the FAQPage schema. */
 export default function Faq() {
   return (
-    <section id="faq" className="border-t border-line px-5 py-20 md:px-8 md:py-32">
+    <section id="faq" className="border-t border-line gutter py-20 md:py-32">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <p className="label text-mute">(05) Quick answers</p>
@@ -15,7 +15,7 @@ export default function Faq() {
             </Reveal>
           </h2>
         </div>
-        <div className="border-t border-line lg:col-span-7">
+        <FadeUp className="border-t border-line lg:col-span-7">
           {faq.map(({ q, a }, i) => (
             <details key={q} name="faq" open={i === 0} className="group border-b border-line">
               <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 py-5 text-lg font-medium transition-colors duration-150 hover:text-accent md:text-xl [&::-webkit-details-marker]:hidden">
@@ -27,7 +27,7 @@ export default function Faq() {
               <p className="max-w-[62ch] pb-6 text-mute">{a}</p>
             </details>
           ))}
-        </div>
+        </FadeUp>
       </div>
     </section>
   );

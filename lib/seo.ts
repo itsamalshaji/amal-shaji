@@ -75,7 +75,7 @@ export const worksLd = () =>
         itemListElement: works.map((w, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          item: { "@type": "WebSite", name: w.name, url: w.url, description: w.blurb, genre: categories[w.category], image: abs(`/works/${w.slug}.jpg`), creator: { "@id": PERSON } },
+          item: { "@type": w.url ? "WebSite" : "SoftwareApplication", name: w.name, ...(w.url && { url: w.url }), description: w.blurb, genre: categories[w.category], image: abs(`/works/${w.slug}.jpg`), creator: { "@id": PERSON } },
         })),
       },
     },

@@ -18,7 +18,7 @@ function Browser({ url, children, className = "" }: { url: string; children: Rea
           <i className="size-2 rounded-full bg-line" />
           <i className="size-2 rounded-full bg-line" />
         </span>
-        <span className="truncate">{url}</span>
+        <span className="truncate normal-case tracking-normal">{url}</span>
       </figcaption>
       <div className="grid overflow-hidden">{children}</div>
     </figure>
@@ -50,7 +50,7 @@ function Phone({ children }: { children: React.ReactNode }) {
 }
 
 // Caps the composition by height as well as width so it always fits the sticky card.
-const stage = "relative mx-auto w-full lg:max-w-[calc((min(78svh,43rem)-12.5rem)*1.6)]";
+const stage = "relative mx-auto w-full desk:max-w-[calc((min(78svh,43rem)-12.5rem)*1.6)]";
 
 // On hover the whole composition grows as one piece (nothing is cropped) and its floating layer lifts a little further.
 const visual = "group/visual relative transition-transform duration-700 ease-out will-change-transform hover:scale-[1.03]";
@@ -133,7 +133,7 @@ function BoatRace() {
         <button
           onClick={() => setBusy(true)}
           disabled={busy}
-          className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-accent hover:text-accent active:border-volt active:bg-volt active:text-night disabled:pointer-events-none disabled:opacity-40"
+          className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-bone hover:bg-bone hover:text-ink active:border-volt active:bg-volt active:text-night disabled:pointer-events-none disabled:opacity-40"
         >
           {scans ? "Scan again" : "Scan the pass"}
         </button>
@@ -281,10 +281,10 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
   }, []);
 
   return (
-    <div ref={wrap} style={{ "--pin": `${12 + i * 10}px`, "--step": `${i * 20}px` } as React.CSSProperties} className="stack-card lg:flex lg:h-svh lg:items-center">
+    <div ref={wrap} style={{ "--pin": `${12 + i * 10}px`, "--step": `${i * 20}px` } as React.CSSProperties} className="stack-card desk:flex desk:h-svh desk:items-center">
       <motion.article
         style={{ scale }}
-        className="group/card relative grid w-full origin-bottom border border-line bg-ink-2 will-change-transform lg:top-[var(--step)] lg:h-[min(78svh,43rem)] lg:origin-top lg:grid-cols-[0.72fr_1.28fr]"
+        className="group/card relative grid w-full origin-bottom border border-line bg-ink-2 will-change-transform lg:grid-cols-[0.72fr_1.28fr] desk:top-[var(--step)] desk:h-[min(78svh,43rem)] desk:origin-top"
       >
         <div className="flex flex-col justify-between gap-10 p-6 md:p-10">
           <div className="label flex justify-between text-mute">
@@ -332,7 +332,7 @@ export default function Work() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   return (
-    <section id="work" className="px-5 md:px-8">
+    <section id="work" className="gutter">
       <div className="grid items-end gap-6 border-t border-line pt-6 lg:grid-cols-12">
         <p className="label text-mute lg:col-span-3">(02) Selected work</p>
         <h2 className="display text-[clamp(3.5rem,11vw,10rem)] lg:col-span-9">
@@ -342,12 +342,12 @@ export default function Work() {
           </Reveal>
         </h2>
       </div>
-      <div ref={ref} className="mt-12 space-y-5 lg:mt-0 lg:space-y-0">
+      <div ref={ref} className="mt-12 space-y-5 desk:mt-0 desk:space-y-0">
         {projects.map((p, i) => (
           <Card key={p.title} i={i} progress={scrollYProgress} />
         ))}
       </div>
-      <Link href="/works" className="group mt-6 flex items-center justify-between border border-line px-6 py-7 transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-night md:px-10 lg:mt-0">
+      <Link href="/works" className="group mt-6 flex items-center justify-between border border-line px-6 py-7 transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-night md:px-10 desk:mt-0">
         <span className="display widen text-3xl md:text-5xl">See all {works.length} works</span>
         <span className="display text-3xl md:text-5xl" aria-hidden>→</span>
       </Link>

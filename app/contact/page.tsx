@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/contact-form";
 import { Clock } from "@/components/nav";
 import JsonLd from "@/components/json-ld";
-import { Reveal } from "@/components/reveal";
+import { FadeUp, Reveal } from "@/components/reveal";
 import { contactLd, pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -22,7 +22,7 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd data={contactLd()} />
-      <main className="px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-44">
+      <main className="gutter pb-24 pt-32 md:pb-32 md:pt-44">
         <p className="label text-mute">(Contact)</p>
         <h1 className="display mt-6 text-[clamp(4rem,13vw,12rem)]">
           <Reveal>Let&rsquo;s</Reveal>
@@ -32,7 +32,7 @@ export default function ContactPage() {
         </h1>
 
         <div className="mt-16 grid gap-16 border-t border-line pt-10 md:mt-24 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+          <FadeUp delay={0.15} className="lg:col-span-4">
             <p className="max-w-[30ch] text-xl leading-snug md:text-2xl">
               Hiring a frontend or technical lead, or have something to build? Tell me a little about it.
             </p>
@@ -62,13 +62,13 @@ export default function ContactPage() {
                 <dd className="text-accent">Available now · Open to the UAE</dd>
               </div>
             </dl>
-          </div>
-          <div className="relative lg:col-span-7 lg:col-start-6">
+          </FadeUp>
+          <FadeUp delay={0.25} className="relative lg:col-span-7 lg:col-start-6">
             <ContactForm />
-          </div>
+          </FadeUp>
         </div>
       </main>
-      <footer className="label flex flex-wrap justify-between gap-3 border-t border-line px-5 py-6 text-mute md:px-8">
+      <footer className="label flex flex-wrap justify-between gap-3 border-t border-line gutter py-6 text-mute">
         <span>© 2026 Amal Shaji</span>
         <a href="#top" className="underline-offset-4 hover:underline">Back to top ↑</a>
       </footer>

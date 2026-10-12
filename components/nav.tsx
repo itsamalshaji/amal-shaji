@@ -64,38 +64,31 @@ function ThemeToggle() {
 export default function Nav() {
   // Step aside while reading down, return on the way up.
   const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     if (Math.abs(y - prev) > 4) setHidden(y > prev && y > 200);
+    setScrolled(y > 8);
   });
 
-  // Over the inverted Experience section the nav takes the page colour instead of blending (blend modes are costly while scrolling).
   const pathname = usePathname();
   const home = pathname === "/";
-  const [overLight, setOverLight] = useState(false);
-  useEffect(() => {
-    const target = document.getElementById("experience");
-    if (!target) return;
-    const io = new IntersectionObserver(([e]) => setOverLight(e.isIntersecting), { rootMargin: "-3% 0px -96% 0px" });
-    io.observe(target);
-    return () => io.disconnect();
-  }, [pathname]);
-  const inverted = overLight && home;
-
   const item = "transition-opacity duration-150 hover:opacity-100";
 
+  // The bar is a solid strip in the page colour, so content scrolling underneath never shows through the links.
+  // At the very top it is indistinguishable from the page; once scrolled it gains a hairline to sit above the content.
   return (
-    <header className={`after-load pointer-events-none fixed inset-x-0 top-0 z-40 transition-colors duration-200 ${inverted ? "text-ink" : "text-bone"}`}>
+    <header className="after-load pointer-events-none fixed inset-x-0 top-0 z-40 text-bone">
       <div
-        className={`pointer-events-auto flex items-center justify-between px-5 py-6 transition-transform duration-300 ease-out focus-within:translate-y-0 md:px-8 ${hidden ? "-translate-y-full" : ""}`}
+        className={`pointer-events-auto flex items-center justify-between border-b bg-ink gutter py-4 transition-[transform,border-color] duration-300 ease-out focus-within:translate-y-0 md:py-5 ${scrolled ? "border-line" : "border-transparent"} ${hidden ? "-translate-y-full" : ""}`}
       >
         {home ? (
-          <a href="#top" className="text-lg font-bold tracking-tight">Amal Shaji</a>
+          <a href="#top" className="whitespace-nowrap text-lg font-bold tracking-tight">Amal Shaji</a>
         ) : (
-          <Link href="/" className="text-lg font-bold tracking-tight">Amal Shaji</Link>
+          <Link href="/" className="whitespace-nowrap text-lg font-bold tracking-tight">Amal Shaji</Link>
         )}
-        <nav className="flex items-center gap-6 text-[0.9375rem] font-medium md:gap-10">
+        <nav className="flex items-center gap-4 text-[0.9375rem] font-medium min-[380px]:gap-6 md:gap-10">
           {links.map(([label, href, anchor], i) => {
             const current = anchor ? home && href === "/" : pathname === href;
             const cls = `${item} ${current ? "opacity-100 underline decoration-accent decoration-2 underline-offset-8" : "opacity-80"} ${i < 2 ? "hidden sm:block" : ""}`;
