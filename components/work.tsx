@@ -285,9 +285,11 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
             </dl>
           </div>
           <div className="label flex flex-wrap items-end justify-between gap-3 text-mute">
-            <ul className="flex flex-wrap gap-x-4 gap-y-1">
+            <ul className="flex flex-wrap gap-2">
               {p.stack.map((s) => (
-                <li key={s}>{s}</li>
+                <li key={s} className="border border-accent/50 px-2 py-1 text-accent">
+                  {s}
+                </li>
               ))}
             </ul>
             {p.link && (

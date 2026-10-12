@@ -62,10 +62,12 @@ export default function WorksGrid() {
                   <span className="label shrink-0 text-mute">{String(i + 1).padStart(2, "0")}</span>
                 </div>
                 <p className="mt-2 text-[0.9375rem] text-mute">{w.blurb}</p>
-                <p className="label mt-3 flex flex-wrap gap-x-3 gap-y-1 text-mute">
-                  <span className="text-bone">{domain(w.url)}</span>
+                <p className="label mt-4 flex flex-wrap items-center gap-2">
+                  <span className="mr-1 text-mute">{domain(w.url)}</span>
                   {w.tech?.map((t) => (
-                    <span key={t}>{t}</span>
+                    <span key={t} className="border border-accent/50 px-2 py-1 text-accent">
+                      {t}
+                    </span>
                   ))}
                 </p>
               </a>
