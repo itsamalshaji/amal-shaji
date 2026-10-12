@@ -33,7 +33,7 @@ export default function Preloader() {
       onTransitionEnd={(e) => e.target === e.currentTarget && setPhase("done")}
       className="preloader fixed inset-0 z-70 flex flex-col justify-between bg-ink p-5 md:p-8"
     >
-      <span ref={bar} className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-volt" />
+      <span ref={bar} className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-accent" />
       <span className="label text-mute">Amal Shaji — Portfolio 2026</span>
       <span ref={num} className="display self-end text-[clamp(6rem,22vw,18rem)] tabular-nums text-bone">
         000

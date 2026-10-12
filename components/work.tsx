@@ -50,7 +50,7 @@ function Gatepass() {
 
   const state = busy ? "scanning" : scans === 0 ? "idle" : scans === 1 ? "admitted" : "rejected";
   const status = { scanning: "Verifying…", idle: "Awaiting scan", admitted: "Admitted", rejected: "Rejected · already used" }[state];
-  const tone = { scanning: "text-mute", idle: "text-mute", admitted: "text-volt", rejected: "text-warn" }[state];
+  const tone = { scanning: "text-mute", idle: "text-mute", admitted: "text-accent", rejected: "text-warn" }[state];
 
   return (
     <div ref={ref} className="flex h-full flex-col items-center justify-between gap-8 p-6 md:p-10">
@@ -94,7 +94,7 @@ function Gatepass() {
             <button
               onClick={() => setBusy(true)}
               disabled={busy}
-              className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-volt hover:text-volt active:bg-volt active:text-ink disabled:pointer-events-none disabled:opacity-40"
+              className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-accent hover:text-accent active:border-volt active:bg-volt active:text-night disabled:pointer-events-none disabled:opacity-40"
             >
               {scans ? "Scan again" : "Scan"}
             </button>
@@ -164,7 +164,7 @@ function Pipeline() {
           >
             <span className="label text-mute">{String(i + 1).padStart(2, "0")}</span>
             <span>{step}</span>
-            <span className="label text-volt">✓ {result}</span>
+            <span className="label text-accent">✓ {result}</span>
           </motion.li>
         ))}
       </motion.ol>
@@ -196,7 +196,7 @@ function Modules() {
           <motion.li
             key={i}
             variants={{ hidden: { opacity: 0, scale: 0.6 }, show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease } } }}
-            className="label flex aspect-square items-end border border-line p-1 text-[0.5625rem] text-mute transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-ink"
+            className="label flex aspect-square items-end border border-line p-1 text-[0.5625rem] text-mute transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-night"
           >
             {String(i + 1).padStart(2, "0")}
           </motion.li>
@@ -211,7 +211,7 @@ function Modules() {
         <dl className="label mt-5 grid grid-cols-2 border-t border-line pt-4">
           <div>
             <dt className="text-mute">Frontend</dt>
-            <dd className="mt-1 text-volt">Deployed · Vercel</dd>
+            <dd className="mt-1 text-accent">Deployed · Vercel</dd>
           </div>
           <div>
             <dt className="text-mute">Django API</dt>
@@ -286,7 +286,7 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
             <ul className="mt-8 max-w-[52ch] space-y-3 text-[0.9375rem] text-bone/85">
               {p.points.map((pt) => (
                 <li key={pt} className="grid grid-cols-[1.25rem_1fr]">
-                  <span className="text-volt">—</span>
+                  <span className="text-accent">—</span>
                   {pt}
                 </li>
               ))}
@@ -316,7 +316,7 @@ export default function Work() {
         <h2 className="display text-[clamp(3.5rem,11vw,10rem)] lg:col-span-9">
           <Reveal>Shipped,</Reveal>
           <Reveal delay={0.08}>
-            <span className="text-volt">in production</span>
+            <span className="mark">in production</span>
           </Reveal>
         </h2>
       </div>

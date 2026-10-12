@@ -19,7 +19,7 @@ export default function Contact() {
   };
 
   return (
-    <footer id="contact" className="on-volt relative z-45 bg-volt px-5 pb-6 pt-20 text-ink md:px-8 md:pt-32">
+    <footer id="contact" className="on-volt relative z-45 bg-volt px-5 pb-6 pt-20 text-night md:px-8 md:pt-32">
       <div className="grid gap-8 lg:grid-cols-12">
         <p className="label lg:col-span-3">(05) Contact</p>
         <p className="max-w-[30ch] text-xl leading-snug md:text-2xl lg:col-span-6">
@@ -32,8 +32,8 @@ export default function Contact() {
         <ReactiveLine text="LET’S TALK" className="flex" fill={0.8} />
       </h2>
 
-      <div className="mt-10 grid gap-px border border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
-        <button onClick={copy} className="group bg-volt p-5 text-left transition-colors duration-150 hover:bg-ink hover:text-volt active:bg-ink">
+      <div className="mt-10 grid gap-px border border-night bg-night sm:grid-cols-2 lg:grid-cols-4">
+        <button onClick={copy} className="group bg-volt p-5 text-left transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night">
           <span className="label block opacity-60" aria-live="polite">{copied ? "Copied to clipboard" : "Email · click to copy"}</span>
           <span className="mt-6 block break-all text-lg">{email}</span>
         </button>
@@ -46,7 +46,7 @@ export default function Contact() {
             key={href}
             href={href}
             {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
-            className="bg-volt p-5 transition-colors duration-150 hover:bg-ink hover:text-volt active:bg-ink"
+            className="bg-volt p-5 transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night"
           >
             <span className="label block opacity-60">{label}</span>
             <span className="mt-6 block text-lg">{text}</span>

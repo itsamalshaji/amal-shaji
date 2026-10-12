@@ -69,7 +69,7 @@ export default function Home() {
               {facts.map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[6.5rem_1fr] border-b border-line pb-2.5">
                   <dt className="text-mute">{k}</dt>
-                  <dd className={k === "Status" ? "text-volt" : ""}>{v}</dd>
+                  <dd className={k === "Status" ? "text-accent" : ""}>{v}</dd>
                 </div>
               ))}
             </dl>
@@ -152,7 +152,7 @@ export default function Home() {
           <div className="mt-16 grid border-t border-line sm:grid-cols-2 md:mt-24 lg:grid-cols-3">
             {stack.map(([group, items], i) => (
               <FadeUp key={group} delay={(i % 3) * 0.06} className={`border-b border-line py-8 sm:pr-6 ${i % 3 ? "lg:border-l lg:pl-6" : ""} ${i % 2 ? "sm:max-lg:border-l sm:max-lg:pl-6" : ""}`}>
-                <h3 className="label text-volt">{group}</h3>
+                <h3 className="label text-accent">{group}</h3>
                 <ul className="mt-5 space-y-1.5 text-lg leading-snug">
                   {items.map((s) => (
                     <li key={s}>{s}</li>

@@ -21,6 +21,30 @@ const links = [
   ["Contact", "#contact"],
 ];
 
+function ThemeToggle() {
+  const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "light" ? "dark" : "light";
+    const apply = () => {
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+    };
+    const r = e.currentTarget.getBoundingClientRect();
+    root.style.setProperty("--tx", `${r.left + r.width / 2}px`);
+    root.style.setProperty("--ty", `${r.top + r.height / 2}px`);
+    if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) apply();
+    else document.startViewTransition(apply);
+  };
+  return (
+    <button onClick={toggle} aria-label="Switch between dark and light theme" className="opacity-70 transition-opacity duration-150 hover:opacity-100">
+      ◐ <span className="theme-dark-only">Light</span>
+      <span className="theme-light-only">Dark</span>
+    </button>
+  );
+}
+
 export default function Nav() {
   // Step aside while reading down, return on the way up.
   const [hidden, setHidden] = useState(false);
@@ -45,6 +69,7 @@ export default function Nav() {
               {label}
             </a>
           ))}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

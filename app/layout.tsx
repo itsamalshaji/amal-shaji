@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anybody, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const display = Anybody({ variable: "--f-display", subsets: ["latin"], axes: ["wdth"] });
@@ -16,8 +17,12 @@ export const viewport: Viewport = { themeColor: "#0d0d0b" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
       <body>
+        {/* Apply a saved theme before first paint. */}
+        <Script id="theme" strategy="beforeInteractive">
+          {`try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`}
+        </Script>
         <noscript>
           <style>{`.preloader{display:none}.hero-letter,.after-load{transform:none!important;opacity:1!important}`}</style>
         </noscript>

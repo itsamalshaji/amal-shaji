@@ -8,8 +8,23 @@
   --bone: #ebe7dc;
   --mute: #8f8b7e;
   --volt: #c6f432;
+  --night: #0d0d0b; /* fixed dark, for type on volt in either theme */
+  --accent: var(--volt); /* accent as text; volt itself is only legible on dark */
   --warn: #ff6b4a;
+  color-scheme: dark;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Light theme swaps the roles: "ink" is the page, "bone" is the type. Inverted sections flip with it. */
+[data-theme="light"] {
+  --ink: #eeebe2;
+  --ink-2: #e4e0d4;
+  --line: #cbc6b8;
+  --bone: #11110f;
+  --mute: #6b675c;
+  --accent: #456100;
+  --warn: #c2381a;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -19,6 +34,8 @@
   --color-bone: var(--bone);
   --color-mute: var(--mute);
   --color-volt: var(--volt);
+  --color-night: var(--night);
+  --color-accent: var(--accent);
   --color-warn: var(--warn);
   --font-sans: var(--f-body);
   --font-mono: var(--f-mono);
@@ -36,9 +53,10 @@ body {
   font-size: 1rem;
   line-height: 1.55;
 }
-::selection { background: var(--volt); color: var(--ink); }
-:focus-visible { outline: 2px solid var(--volt); outline-offset: 4px; }
-.on-volt :focus-visible, .on-bone :focus-visible { outline-color: var(--ink); }
+::selection { background: var(--volt); color: var(--night); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.on-bone :focus-visible { outline-color: var(--ink); }
+.on-volt :focus-visible { outline-color: var(--night); }
 
 /* Width is the typographic voice: condensed at rest, wide on attention. */
 .display {
@@ -49,6 +67,22 @@ body {
 }
 .widen { transition: font-variation-settings 500ms var(--ease-out); }
 a:hover .widen, button:hover .widen, .group:hover .widen { font-variation-settings: "wdth" 104, "wght" 780; }
+
+/* Accent on display type: volt letters on dark, a volt highlighter on light. */
+.mark { color: var(--volt); }
+[data-theme="light"] .mark { color: var(--night); background: var(--volt); padding-inline: 0.06em; margin-left: -0.06em; }
+
+.theme-light-only { display: none; }
+[data-theme="light"] .theme-light-only { display: inline; }
+[data-theme="light"] .theme-dark-only { display: none; }
+
+/* Theme change wipes outward from the toggle. */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: theme-wipe 800ms var(--ease-out); }
+@keyframes theme-wipe {
+  from { clip-path: circle(0 at var(--tx, 100%) var(--ty, 0)); }
+  to { clip-path: circle(150vmax at var(--tx, 100%) var(--ty, 0)); }
+}
 
 .label {
   font-family: var(--f-mono), monospace;
