@@ -54,8 +54,18 @@ export default function Nav() {
     if (Math.abs(y - prev) > 4) setHidden(y > prev && y > 200);
   });
 
+  // Over the inverted Experience section the nav takes the page colour instead of blending (blend modes are costly while scrolling).
+  const [inverted, setInverted] = useState(false);
+  useEffect(() => {
+    const target = document.getElementById("experience");
+    if (!target) return;
+    const io = new IntersectionObserver(([e]) => setInverted(e.isIntersecting), { rootMargin: "-3% 0px -96% 0px" });
+    io.observe(target);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <header className="after-load pointer-events-none fixed inset-x-0 top-0 z-40 text-white mix-blend-difference">
+    <header className={`after-load pointer-events-none fixed inset-x-0 top-0 z-40 transition-colors duration-200 ${inverted ? "text-ink" : "text-bone"}`}>
       <div
         className={`label pointer-events-auto flex items-center justify-between px-5 py-5 transition-transform duration-300 ease-out focus-within:translate-y-0 md:px-8 ${hidden ? "-translate-y-full" : ""}`}
       >

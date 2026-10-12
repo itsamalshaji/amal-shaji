@@ -29,11 +29,14 @@ export default function ReactiveLine({
     const el = root.current!;
     const letters = Array.from(el.querySelectorAll<HTMLElement>("[data-l]"));
     const cur = letters.map(() => 0);
+    const written = letters.map(() => "");
+    let visible = false;
     let mouse: { x: number; y: number } | null = null;
     let raf = 0;
 
     const apply = (i: number) => {
-      letters[i].style.fontVariationSettings = `"wdth" ${mix(REST.wdth, NEAR.wdth, cur[i]).toFixed(1)}, "wght" ${mix(REST.wght, NEAR.wght, cur[i]).toFixed(0)}`;
+      const v = `"wdth" ${mix(REST.wdth, NEAR.wdth, cur[i]).toFixed(1)}, "wght" ${mix(REST.wght, NEAR.wght, cur[i]).toFixed(0)}`;
+      if (v !== written[i]) letters[i].style.fontVariationSettings = written[i] = v;
     };
 
     const fit = () => {
@@ -49,7 +52,7 @@ export default function ReactiveLine({
 
     const tick = () => {
       raf = 0;
-      const rects = letters.map((l) => l.getBoundingClientRect());
+      const rects = mouse ? letters.map((l) => l.getBoundingClientRect()) : [];
       const radius = Math.max(el.clientWidth * 0.2, 160);
       let moving = false;
       letters.forEach((_, i) => {
@@ -72,7 +75,7 @@ export default function ReactiveLine({
       if (!raf) raf = requestAnimationFrame(tick);
     };
     const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
+      if (e.pointerType !== "mouse" || !visible) return;
       mouse = { x: e.clientX, y: e.clientY };
       kick();
     };
@@ -83,6 +86,12 @@ export default function ReactiveLine({
 
     const ro = new ResizeObserver(fit);
     ro.observe(el);
+    // Off screen (or display: none) the line does no work at all.
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (!visible) onLeave();
+    });
+    io.observe(el);
     document.fonts.ready.then(fit);
 
     const live = !matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -92,6 +101,7 @@ export default function ReactiveLine({
     }
     return () => {
       ro.disconnect();
+      io.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);

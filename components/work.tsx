@@ -271,7 +271,7 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
     <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center">
       <motion.article
         style={{ scale, top: `${i * 20}px` }}
-        className="relative grid w-full origin-top border border-line bg-ink-2 max-lg:transform-none! lg:h-[min(78svh,43rem)] lg:grid-cols-[1fr_1.05fr]"
+        className="relative grid w-full origin-top border lg:will-change-transform border-line bg-ink-2 max-lg:transform-none! lg:h-[min(78svh,43rem)] lg:grid-cols-[1fr_1.05fr]"
       >
         <div className="flex flex-col justify-between gap-10 p-6 md:p-10">
           <div className="label flex justify-between text-mute">
