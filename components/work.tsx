@@ -206,13 +206,13 @@ function Erp() {
   return (
     <div className={stage}>
       <div className={visual}>
-        <Browser url="CipherPeak ERP · Executive dashboard">
-          <Shot src="/work/erp-exec.jpg" alt="CipherPeak ERP executive dashboard with revenue, cash and sales funnel widgets" />
+        <Browser url="ciphererp.vercel.app">
+          <Shot src="/work/erp-home.jpg" alt="CipherPeak ERP home screen with items needing attention and the module groups" />
         </Browser>
-        <Browser url="Modules" className={`absolute -bottom-6 right-3 w-[46%] md:-right-4 ${float} ${lift}`}>
+        <Browser url="Sign in" className={`absolute -bottom-6 right-3 w-[46%] md:-right-4 ${float} ${lift}`}>
           <Image
-            src="/work/erp-desktop.jpg"
-            alt="CipherPeak ERP home screen listing the module groups"
+            src="/work/erp-login.jpg"
+            alt="CipherPeak ERP operations console sign-in screen"
             width={1600}
             height={1000}
             sizes="(min-width: 1024px) 26vw, 44vw"
@@ -261,6 +261,7 @@ const projects = [
       ["38", "modules"],
       ["5", "business domains"],
     ],
+    link: "https://ciphererp.vercel.app",
     Visual: Erp,
   },
 ];

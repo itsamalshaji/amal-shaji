@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anybody, JetBrains_Mono, Manrope } from "next/font/google";
+import { Anybody, Manrope } from "next/font/google";
 import Script from "next/script";
 import Nav from "@/components/nav";
 import Preloader from "@/components/preloader";
@@ -9,7 +9,6 @@ import "./globals.css";
 
 const display = Anybody({ variable: "--f-display", subsets: ["latin"], axes: ["wdth"] });
 const body = Manrope({ variable: "--f-body", subsets: ["latin"] });
-const mono = JetBrains_Mono({ variable: "--f-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -31,7 +30,7 @@ export const viewport: Viewport = { themeColor: "#eeebe2" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={`${display.variable} ${body.variable} antialiased`}>
       <body id="top">
         {/* Light is the default (set on <html>); a saved choice is applied before first paint. */}
         <Script id="theme" strategy="beforeInteractive">

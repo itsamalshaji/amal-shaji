@@ -38,7 +38,6 @@
   --color-accent: var(--accent);
   --color-warn: var(--warn);
   --font-sans: var(--f-body);
-  --font-mono: var(--f-mono);
   --font-display: var(--f-display);
   --ease-out: var(--ease-out);
 }
@@ -84,11 +83,14 @@ a:hover .widen, button:hover .widen, .group:hover .widen { font-variation-settin
   to { clip-path: circle(150vmax at var(--tx, 100%) var(--ty, 0)); }
 }
 
+/* Small captions and tags: the body face, semibold, lightly tracked. (No monospace: it reads as a template tell.) */
 .label {
-  font-family: var(--f-mono), monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  font-family: var(--f-body), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Hero letters wait behind the preloader, then rise. */

@@ -19,7 +19,7 @@ export type Work = {
 export const works: Work[] = [
   { slug: "ntbr", name: "Nehru Trophy Boat Race", blurb: "Event site, online booking and gate scanning for the 72nd race.", url: "https://www.nehrutrophyboatrace.org", category: "apps", tech: ["Next.js", "Supabase"] },
   { slug: "linen", name: "Linen Centre", blurb: "Online store for a Kerala linen apparel and fabric brand.", url: "https://www.linencentre.com", category: "shop", tech: ["Next.js", "Supabase"] },
-  { slug: "erp", name: "CipherPeak ERP", blurb: "Enterprise platform frontend spanning 38 modules.", url: "https://ciphererp.vercel.app", category: "apps", tech: ["React"] },
+  { slug: "cipherpeak-erp", name: "CipherPeak ERP", blurb: "Enterprise platform frontend spanning 38 modules.", url: "https://ciphererp.vercel.app", category: "apps", tech: ["React"] },
   { slug: "buildcrest", name: "Build Crest", blurb: "Building-materials catalogue for a UAE trading company.", url: "https://buildcrest.ae", category: "shop", tech: ["Next.js", "Supabase"] },
   { slug: "imagecottons", name: "Image Cottons", blurb: "Handloom and hand-block textile store.", url: "https://www.imagecottons.in", category: "shop", tech: ["Next.js", "Supabase"] },
   { slug: "setrix", name: "Setrix Logistics", blurb: "Dubai customs clearance and shipping agency.", url: "https://www.setrix.me", category: "business", tech: ["Next.js"] },
