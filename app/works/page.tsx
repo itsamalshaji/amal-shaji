@@ -2,16 +2,20 @@ import type { Metadata } from "next";
 import Contact from "@/components/contact";
 import { Reveal } from "@/components/reveal";
 import WorksGrid from "@/components/works-grid";
+import JsonLd from "@/components/json-ld";
+import { pageMeta, worksLd } from "@/lib/seo";
 import { works } from "@/lib/works";
 
-export const metadata: Metadata = {
-  title: "My works — Amal Shaji",
-  description: `${works.length} client sites, online stores and web platforms built or led by Amal Shaji.`,
-};
+export const metadata: Metadata = pageMeta({
+  title: `Works — ${works.length} Websites, Stores & Web Apps by Amal Shaji`,
+  description: `${works.length} live client websites, online stores and web apps built or led by Amal Shaji with React, Next.js, Supabase, Shopify and WordPress.`,
+  path: "/works",
+});
 
 export default function WorksPage() {
   return (
     <>
+      <JsonLd data={worksLd()} />
       <main className="px-5 pb-24 pt-32 md:px-8 md:pb-40 md:pt-44">
         <p className="label flex justify-between text-mute">
           <span>(Works)</span>

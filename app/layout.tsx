@@ -4,6 +4,7 @@ import Script from "next/script";
 import Nav from "@/components/nav";
 import Preloader from "@/components/preloader";
 import Providers from "@/components/providers";
+import { site, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const display = Anybody({ variable: "--f-display", subsets: ["latin"], axes: ["wdth"] });
@@ -11,9 +12,19 @@ const body = Instrument_Sans({ variable: "--f-body", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--f-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Amal Shaji — Frontend Developer & Technical Lead",
-  description:
-    "Frontend and full-stack developer, co-founder and technical lead at CipherPeak. React, Next.js, TypeScript, Supabase. Based in Kerala, open to relocate to the UAE.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: site.title, template: `%s | ${site.name}` },
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: SITE_URL }],
+  creator: site.name,
+  publisher: site.name,
+  category: "technology",
+  keywords: ["Amal Shaji", "frontend developer", "React developer", "Next.js developer", "TypeScript", "team lead", "technical lead", "Kerala", "UAE", "Dubai", "CipherPeak"],
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  // Paste the token from Google Search Console into this env var on Vercel to verify ownership.
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = { themeColor: "#eeebe2" };

@@ -4,10 +4,16 @@ import {
 } from "simple-icons";
 import Link from "next/link";
 import Contact from "@/components/contact";
+import Faq from "@/components/faq";
+import JsonLd from "@/components/json-ld";
 import Gallery from "@/components/gallery";
 import Profile from "@/components/profile";
 import { FadeUp, Reveal } from "@/components/reveal";
 import Work from "@/components/work";
+import { homeLd, pageMeta } from "@/lib/seo";
+import { site } from "@/lib/site";
+
+export const metadata = pageMeta({ title: site.title, description: site.description, path: "/" });
 
 // Stand-in until the portrait is supplied: swap for an <Image> of a transparent-background cutout so the ring sits behind it.
 const photo = (
@@ -62,6 +68,7 @@ function Logo({ icon, className = "" }: { icon: Icon; className?: string }) {
 export default function Home() {
   return (
     <>
+      <JsonLd data={homeLd()} />
       <main>
         {/* Hero */}
         <section className="relative flex min-h-svh flex-col overflow-hidden">
@@ -70,12 +77,13 @@ export default function Home() {
               <p className="after-load text-4xl font-bold tracking-tight md:text-5xl">
                 Hello<span className="text-accent">.</span>
               </p>
+              {/* The headline is the largest paint; it renders immediately (under the preloader) rather than fading in after hydration. */}
               <h1>
-                <span className="after-load relative ml-14 mt-6 block w-fit text-3xl font-light tracking-tight md:ml-20 md:text-[2.75rem] md:leading-tight" style={{ "--d": "300ms" } as React.CSSProperties}>
+                <span className="relative ml-14 mt-6 block w-fit text-3xl font-light tracking-tight md:ml-20 md:text-[2.75rem] md:leading-tight" style={{ "--d": "300ms" } as React.CSSProperties}>
                   <span aria-hidden className="absolute right-full top-1/2 mr-4 h-0.5 w-screen bg-accent" />
                   I&rsquo;m Amal<span className="sr-only"> Shaji,</span>
                 </span>
-                <span className="after-load mt-4 block text-[clamp(2.25rem,4.8vw,4.75rem)] font-bold leading-[1.05] tracking-[-0.03em]" style={{ "--d": "400ms" } as React.CSSProperties}>
+                <span className="mt-4 block text-[clamp(2.25rem,4.8vw,4.75rem)] font-bold leading-[1.05] tracking-[-0.03em]" style={{ "--d": "400ms" } as React.CSSProperties}>
                   Frontend Developer
                   <span className="block">
                     <span className="text-accent">&amp;</span> Team Lead
@@ -211,6 +219,7 @@ export default function Home() {
             </p>
           </FadeUp>
         </section>
+        <Faq />
       </main>
 
       <Contact />

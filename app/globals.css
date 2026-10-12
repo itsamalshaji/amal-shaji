@@ -21,7 +21,7 @@
   --ink-2: #e4e0d4;
   --line: #cbc6b8;
   --bone: #11110f;
-  --mute: #6b675c;
+  --mute: #625e54; /* 5.4:1 on the page, 4.9:1 on cards */
   --accent: #456100;
   --warn: #c2381a;
   color-scheme: light;

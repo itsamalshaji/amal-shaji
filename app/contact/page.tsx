@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/contact-form";
 import { Clock } from "@/components/nav";
+import JsonLd from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
+import { contactLd, pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact — Amal Shaji",
-  description: "Hiring a frontend or technical lead, or have a project to build? Send Amal Shaji a message.",
-};
+export const metadata: Metadata = pageMeta({
+  title: "Contact Amal Shaji — Hire a Frontend Developer & Team Lead",
+  description: "Hiring a frontend developer or technical lead, or have a website, store or web app to build? Message Amal Shaji. Available now and open to the UAE.",
+  path: "/contact",
+});
 
 const details = [
   ["Email", "itsamalshaji@gmail.com", "mailto:itsamalshaji@gmail.com"],
@@ -18,6 +21,7 @@ const details = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={contactLd()} />
       <main className="px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-44">
         <p className="label text-mute">(Contact)</p>
         <h1 className="display mt-6 text-[clamp(4rem,13vw,12rem)]">

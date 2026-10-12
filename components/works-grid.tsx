@@ -26,7 +26,7 @@ export default function WorksGrid() {
             onClick={() => setFilter(key)}
             className={`border px-3.5 py-2.5 transition-colors duration-150 ${filter === key ? "border-bone bg-bone text-ink" : "border-line text-mute hover:border-mute hover:text-bone"}`}
           >
-            {label} <span className="ml-1.5 opacity-60">{String(count).padStart(2, "0")}</span>
+            {label} <span className="ml-1.5">{String(count).padStart(2, "0")}</span>
           </button>
         ))}
       </div>

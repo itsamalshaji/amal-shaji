@@ -16,7 +16,7 @@ function Label({ htmlFor, children, optional }: { htmlFor: string; children: Rea
   return (
     <label htmlFor={htmlFor} className="label flex justify-between text-mute">
       {children}
-      {optional && <span className="opacity-70">Optional</span>}
+      {optional && <span>Optional</span>}
     </label>
   );
 }
