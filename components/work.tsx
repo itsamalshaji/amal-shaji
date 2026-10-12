@@ -33,7 +33,7 @@ function Shot({ src, alt, show = true }: { src: string; alt: string; show?: bool
       width={1600}
       height={1000}
       sizes="(min-width: 1024px) 56vw, 92vw"
-      className={`col-start-1 row-start-1 block h-auto w-full transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-[1.025] ${show ? "opacity-100" : "opacity-0"}`}
+      className={`col-start-1 row-start-1 block h-auto w-full transition-opacity duration-500 ease-out ${show ? "opacity-100" : "opacity-0"}`}
     />
   );
 }
@@ -43,7 +43,7 @@ const float = "shadow-[0_24px_48px_-24px_rgb(0_0_0/0.55)]";
 
 function Phone({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`absolute -bottom-6 right-3 grid w-[23%] min-w-24 overflow-hidden rounded-[1.1rem] border-4 border-night bg-night md:-right-4 ${float}`}>
+    <div className={`absolute -bottom-6 right-3 grid w-[23%] min-w-24 overflow-hidden rounded-[1.1rem] border-4 border-night bg-night md:-right-4 ${float} ${lift}`}>
       {children}
     </div>
   );
@@ -51,6 +51,10 @@ function Phone({ children }: { children: React.ReactNode }) {
 
 // Caps the composition by height as well as width so it always fits the sticky card.
 const stage = "relative mx-auto w-full lg:max-w-[calc((min(78svh,43rem)-12.5rem)*1.6)]";
+
+// On hover the whole composition grows as one piece (nothing is cropped) and its floating layer lifts a little further.
+const visual = "group/visual relative transition-transform duration-700 ease-out will-change-transform hover:scale-[1.03]";
+const lift = "transition-transform duration-700 ease-out group-hover/visual:-translate-y-2";
 
 /* ── 01 · Boat race: site + a working model of the one-time-use scan ─────── */
 
@@ -100,27 +104,29 @@ function BoatRace() {
 
   return (
     <div ref={ref} className={stage}>
-      <Browser url="nehrutrophyboatrace.org">
-        <Shot src="/work/ntbr-desktop.jpg" alt="Nehru Trophy Boat Race 2026 website home page" />
-      </Browser>
+      <div className={visual}>
+        <Browser url="nehrutrophyboatrace.org">
+          <Shot src="/work/ntbr-desktop.jpg" alt="Nehru Trophy Boat Race 2026 website home page" />
+        </Browser>
 
-      <div className={`isolate absolute -bottom-4 right-3 w-[27%] min-w-28 rotate-3 bg-bone p-[4.5%] text-ink md:-right-4 lg:p-3.5 ${float}`}>
-        <p className="display text-lg md:text-2xl">Gatepass</p>
-        <div className="my-2 border-t border-dashed border-ink/30" />
-        <div className="relative overflow-hidden">
-          <svg viewBox={`0 0 ${QR.n} ${QR.n}`} className="block w-full" shapeRendering="crispEdges" aria-hidden>
-            <path d={QR.d} fill="currentColor" />
-          </svg>
-          {busy && (
-            <motion.span
-              className="absolute inset-x-0 top-0 h-full origin-top border-b-2 border-ink bg-volt/70 mix-blend-multiply"
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: 1 }}
-              transition={{ duration: 0.9, ease: "easeInOut" }}
-            />
-          )}
+        <div className={`isolate absolute -bottom-4 right-3 w-[27%] min-w-28 rotate-3 bg-bone p-[4.5%] text-ink md:-right-4 lg:p-3.5 ${float} ${lift}`}>
+          <p className="display text-lg md:text-2xl">Gatepass</p>
+          <div className="my-2 border-t border-dashed border-ink/30" />
+          <div className="relative overflow-hidden">
+            <svg viewBox={`0 0 ${QR.n} ${QR.n}`} className="block w-full" shapeRendering="crispEdges" aria-hidden>
+              <path d={QR.d} fill="currentColor" />
+            </svg>
+            {busy && (
+              <motion.span
+                className="absolute inset-x-0 top-0 h-full origin-top border-b-2 border-ink bg-volt/70 mix-blend-multiply"
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.9, ease: "easeInOut" }}
+              />
+            )}
+          </div>
+          <p className="label mt-2 text-[0.5625rem] text-ink/60">Single entry</p>
         </div>
-        <p className="label mt-2 text-[0.5625rem] text-ink/60">Single entry</p>
       </div>
 
       <div className="label mt-5 flex max-w-[68%] flex-wrap items-center gap-x-4 gap-y-2">
@@ -148,9 +154,9 @@ function BoatRace() {
 /* ── 02 · Three stores, switchable ───────────────────────────────────────── */
 
 const stores = [
-  { name: "Linen Centre", url: "linencentre.com", slug: "linen" },
-  { name: "Image Cottons", url: "imagecottons.in", slug: "imagecottons" },
   { name: "Build Crest", url: "buildcrest.ae", slug: "buildcrest" },
+  { name: "Image Cottons", url: "imagecottons.in", slug: "imagecottons" },
+  { name: "Linen Centre", url: "linencentre.com", slug: "linen" },
 ];
 
 function Stores() {
@@ -170,24 +176,26 @@ function Stores() {
           </button>
         ))}
       </div>
-      <Browser url={stores[active].url}>
-        {stores.map((s, i) => (
-          <Shot key={s.slug} src={`/work/${s.slug}-desktop.jpg`} alt={`${s.name} storefront home page`} show={active === i} />
-        ))}
-      </Browser>
-      <Phone>
-        {stores.map((s, i) => (
-          <Image
-            key={s.slug}
-            src={`/work/${s.slug}-mobile.jpg`}
-            alt={`${s.name} on mobile`}
-            width={520}
-            height={1125}
-            sizes="(min-width: 1024px) 14vw, 24vw"
-            className={`col-start-1 row-start-1 block h-auto w-full transition-opacity duration-500 ease-out ${active === i ? "opacity-100" : "opacity-0"}`}
-          />
-        ))}
-      </Phone>
+      <div className={visual}>
+        <Browser url={stores[active].url}>
+          {stores.map((s, i) => (
+            <Shot key={s.slug} src={`/work/${s.slug}-desktop.jpg`} alt={`${s.name} storefront home page`} show={active === i} />
+          ))}
+        </Browser>
+        <Phone>
+          {stores.map((s, i) => (
+            <Image
+              key={s.slug}
+              src={`/work/${s.slug}-mobile.jpg`}
+              alt={`${s.name} on mobile`}
+              width={520}
+              height={1125}
+              sizes="(min-width: 1024px) 14vw, 24vw"
+              className={`col-start-1 row-start-1 block h-auto w-full transition-opacity duration-500 ease-out ${active === i ? "opacity-100" : "opacity-0"}`}
+            />
+          ))}
+        </Phone>
+      </div>
     </div>
   );
 }
@@ -197,19 +205,21 @@ function Stores() {
 function Erp() {
   return (
     <div className={stage}>
-      <Browser url="CipherPeak ERP · Executive dashboard">
-        <Shot src="/work/erp-exec.jpg" alt="CipherPeak ERP executive dashboard with revenue, cash and sales funnel widgets" />
-      </Browser>
-      <Browser url="Modules" className={`absolute -bottom-6 right-3 w-[46%] md:-right-4 ${float}`}>
-        <Image
-          src="/work/erp-desktop.jpg"
-          alt="CipherPeak ERP home screen listing the module groups"
-          width={1600}
-          height={1000}
-          sizes="(min-width: 1024px) 26vw, 44vw"
-          className="block h-auto w-full"
-        />
-      </Browser>
+      <div className={visual}>
+        <Browser url="CipherPeak ERP · Executive dashboard">
+          <Shot src="/work/erp-exec.jpg" alt="CipherPeak ERP executive dashboard with revenue, cash and sales funnel widgets" />
+        </Browser>
+        <Browser url="Modules" className={`absolute -bottom-6 right-3 w-[46%] md:-right-4 ${float} ${lift}`}>
+          <Image
+            src="/work/erp-desktop.jpg"
+            alt="CipherPeak ERP home screen listing the module groups"
+            width={1600}
+            height={1000}
+            sizes="(min-width: 1024px) 26vw, 44vw"
+            className="block h-auto w-full"
+          />
+        </Browser>
+      </div>
     </div>
   );
 }

@@ -43,7 +43,7 @@ export default function WorksGrid() {
               transition={{ duration: 0.45, ease }}
             >
               <a href={w.url} target="_blank" rel="noreferrer" className="group block">
-                <div className="relative overflow-hidden border border-line bg-ink-2">
+                <div className="relative overflow-hidden border border-line bg-ink-2 transition-transform duration-700 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-[1.025]">
                   <Image
                     src={`/works/${w.slug}.jpg`}
                     alt={`${w.name} website`}
@@ -51,7 +51,7 @@ export default function WorksGrid() {
                     height={750}
                     sizes="(min-width: 1280px) 31vw, (min-width: 640px) 46vw, 92vw"
                     loading={i < 3 ? "eager" : "lazy"}
-                    className="block h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    className="block h-auto w-full"
                   />
                   <span className="label absolute bottom-3 right-3 translate-y-[160%] bg-volt px-3 py-2 text-night transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-visible:translate-y-0">
                     Visit site ↗
