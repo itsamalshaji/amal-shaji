@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Anybody, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import Nav from "@/components/nav";
+import Preloader from "@/components/preloader";
+import Providers from "@/components/providers";
 import "./globals.css";
 
 const display = Anybody({ variable: "--f-display", subsets: ["latin"], axes: ["wdth"] });
@@ -18,15 +21,20 @@ export const viewport: Viewport = { themeColor: "#0d0d0b" };
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
-      <body>
+      <body id="top">
         {/* Apply a saved theme before first paint. */}
         <Script id="theme" strategy="beforeInteractive">
           {`try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`}
         </Script>
         <noscript>
-          <style>{`.preloader{display:none}.hero-letter,.after-load{transform:none!important;opacity:1!important}`}</style>
+          <style>{`.preloader{display:none}.hero-letter,.after-load{transform:none!important;opacity:1!important}.hero-ring{stroke-dashoffset:0!important}`}</style>
         </noscript>
-        {children}
+        <Providers>
+          <Preloader />
+          <Nav />
+          {children}
+          <div className="grain" aria-hidden />
+        </Providers>
       </body>
     </html>
   );

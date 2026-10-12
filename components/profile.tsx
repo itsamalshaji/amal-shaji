@@ -46,7 +46,7 @@ export default function Profile() {
   const words = statement.split(" ");
 
   return (
-    <section id="profile" className="px-5 pb-24 pt-28 md:px-8 md:pb-40 md:pt-48">
+    <section id="profile" className="px-5 pb-24 pt-12 md:px-8 md:pb-40 md:pt-24">
       <div className="grid gap-8 lg:grid-cols-12">
         <p className="label text-mute lg:col-span-3">(01) Profile</p>
         <p

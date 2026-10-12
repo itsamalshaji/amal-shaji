@@ -2,6 +2,7 @@
 
 import { ReactLenis, type LenisRef } from "lenis/react";
 import { cancelFrame, frame, MotionConfig, useReducedMotion } from "motion/react";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -14,6 +15,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     frame.update(update, true);
     return () => cancelFrame(update);
   }, []);
+
+  // A new page starts at the top, even if the last one was still gliding.
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!location.hash) lenis.current?.lenis?.scrollTo(0, { immediate: true, force: true });
+  }, [pathname]);
 
   return (
     <MotionConfig reducedMotion="user">

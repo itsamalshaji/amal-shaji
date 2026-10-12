@@ -1,6 +1,8 @@
 "use client";
 
 import { useMotionValueEvent, useScroll } from "motion/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const fmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -14,11 +16,12 @@ export function Clock() {
   return <span className="tabular-nums">{time} IST</span>;
 }
 
+// [label, route, same-page anchor used when already on the home page]
 const links = [
-  ["Work", "#work"],
-  ["Experience", "#experience"],
-  ["Stack", "#stack"],
-  ["Contact", "#contact"],
+  ["Home", "/", "#top"],
+  ["About", "/#profile", "#profile"],
+  ["Works", "/works"],
+  ["Contact", "/contact"],
 ];
 
 function ThemeToggle() {
@@ -38,7 +41,7 @@ function ThemeToggle() {
     else document.startViewTransition(apply);
   };
   return (
-    <button onClick={toggle} aria-label="Switch between dark and light theme" className="opacity-70 transition-opacity duration-150 hover:opacity-100">
+    <button onClick={toggle} aria-label="Switch between dark and light theme" className="label opacity-80 transition-opacity duration-150 hover:opacity-100">
       ◐ <span className="theme-dark-only">Light</span>
       <span className="theme-light-only">Dark</span>
     </button>
@@ -55,30 +58,45 @@ export default function Nav() {
   });
 
   // Over the inverted Experience section the nav takes the page colour instead of blending (blend modes are costly while scrolling).
-  const [inverted, setInverted] = useState(false);
+  const pathname = usePathname();
+  const home = pathname === "/";
+  const [overLight, setOverLight] = useState(false);
   useEffect(() => {
     const target = document.getElementById("experience");
     if (!target) return;
-    const io = new IntersectionObserver(([e]) => setInverted(e.isIntersecting), { rootMargin: "-3% 0px -96% 0px" });
+    const io = new IntersectionObserver(([e]) => setOverLight(e.isIntersecting), { rootMargin: "-3% 0px -96% 0px" });
     io.observe(target);
     return () => io.disconnect();
-  }, []);
+  }, [pathname]);
+  const inverted = overLight && home;
+
+  const item = "transition-opacity duration-150 hover:opacity-100";
 
   return (
     <header className={`after-load pointer-events-none fixed inset-x-0 top-0 z-40 transition-colors duration-200 ${inverted ? "text-ink" : "text-bone"}`}>
       <div
-        className={`label pointer-events-auto flex items-center justify-between px-5 py-5 transition-transform duration-300 ease-out focus-within:translate-y-0 md:px-8 ${hidden ? "-translate-y-full" : ""}`}
+        className={`pointer-events-auto flex items-center justify-between px-5 py-6 transition-transform duration-300 ease-out focus-within:translate-y-0 md:px-8 ${hidden ? "-translate-y-full" : ""}`}
       >
-        <a href="#top" className="font-medium">Amal Shaji</a>
-        <span className="hidden opacity-70 md:block">
-          Alappuzha, IN · <Clock />
-        </span>
-        <nav className="flex gap-5">
-          {links.map(([label, href], i) => (
-            <a key={href} href={href} className={`opacity-70 transition-opacity duration-150 hover:opacity-100 ${i && i < 3 ? "hidden sm:block" : ""}`}>
-              {label}
-            </a>
-          ))}
+        {home ? (
+          <a href="#top" className="text-lg font-bold tracking-tight">Amal Shaji</a>
+        ) : (
+          <Link href="/" className="text-lg font-bold tracking-tight">Amal Shaji</Link>
+        )}
+        <nav className="flex items-center gap-6 text-[0.9375rem] font-medium md:gap-10">
+          {links.map(([label, href, anchor], i) => {
+            const current = anchor ? home && href === "/" : pathname === href;
+            const cls = `${item} ${current ? "opacity-100 underline decoration-accent decoration-2 underline-offset-8" : "opacity-80"} ${i < 2 ? "hidden sm:block" : ""}`;
+            // On the home page, in-page links stay plain anchors so the smooth scroll handles them.
+            return home && anchor ? (
+              <a key={label} href={anchor} className={cls} aria-current={current ? "page" : undefined}>
+                {label}
+              </a>
+            ) : (
+              <Link key={label} href={href} className={cls} aria-current={current ? "page" : undefined}>
+                {label}
+              </Link>
+            );
+          })}
           <ThemeToggle />
         </nav>
       </div>

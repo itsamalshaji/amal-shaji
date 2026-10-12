@@ -100,7 +100,10 @@ a:hover .widen, button:hover .widen, .group:hover .widen { font-variation-settin
   transition-delay: calc(var(--i) * 45ms + 150ms);
 }
 html[data-loaded] .hero-letter { transform: none; }
-.after-load { opacity: 0; transform: translateY(12px); transition: opacity 800ms ease-out 600ms, transform 800ms var(--ease-out) 600ms; }
+.after-load { opacity: 0; transform: translateY(12px); transition: opacity 800ms ease-out var(--d, 200ms), transform 800ms var(--ease-out) var(--d, 200ms); }
+/* The ring draws itself once the preloader lifts. */
+.hero-ring { stroke-dasharray: 1.02; stroke-dashoffset: 1.02; transition: stroke-dashoffset 1400ms var(--ease-out) 500ms; }
+html[data-loaded] .hero-ring { stroke-dashoffset: 0; }
 html[data-loaded] .after-load { opacity: 1; transform: none; }
 
 .preloader { transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1); }
@@ -115,5 +118,6 @@ html[data-loaded] .after-load { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .preloader { display: none; }
   .hero-letter, .after-load { transform: none; opacity: 1; transition: none; }
+  .hero-ring { stroke-dashoffset: 0; transition: none; }
   .widen { transition: none; }
 }

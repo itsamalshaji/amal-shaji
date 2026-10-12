@@ -1,12 +1,58 @@
 "use client";
 
 import { motion, useInView, useScroll, useTransform, type MotionValue } from "motion/react";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { works } from "@/lib/works";
 import { Reveal } from "./reveal";
 
-const ease = [0.16, 1, 0.3, 1] as const;
+/* ── Frames ──────────────────────────────────────────────────────────────── */
 
-/* ── 01 · Gatepass: a working model of the one-time-use scan check ───────── */
+function Browser({ url, children, className = "" }: { url: string; children: React.ReactNode; className?: string }) {
+  return (
+    <figure className={`overflow-hidden border border-line bg-ink-2 ${className}`}>
+      <figcaption className="label flex items-center gap-3 border-b border-line px-3 py-2 text-mute">
+        <span className="flex gap-1.5" aria-hidden>
+          <i className="size-2 rounded-full bg-line" />
+          <i className="size-2 rounded-full bg-line" />
+          <i className="size-2 rounded-full bg-line" />
+        </span>
+        <span className="truncate">{url}</span>
+      </figcaption>
+      <div className="grid overflow-hidden">{children}</div>
+    </figure>
+  );
+}
+
+function Shot({ src, alt, show = true }: { src: string; alt: string; show?: boolean }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={1600}
+      height={1000}
+      sizes="(min-width: 1024px) 56vw, 92vw"
+      className={`col-start-1 row-start-1 block h-auto w-full transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-[1.025] ${show ? "opacity-100" : "opacity-0"}`}
+    />
+  );
+}
+
+// Floating layers (phone, second window, ticket) are the only things that cast a shadow.
+const float = "shadow-[0_24px_48px_-24px_rgb(0_0_0/0.55)]";
+
+function Phone({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={`absolute -bottom-6 right-3 grid w-[23%] min-w-24 overflow-hidden rounded-[1.1rem] border-4 border-night bg-night md:-right-4 ${float}`}>
+      {children}
+    </div>
+  );
+}
+
+// Caps the composition by height as well as width so it always fits the sticky card.
+const stage = "relative mx-auto w-full lg:max-w-[calc((min(78svh,43rem)-12.5rem)*1.6)]";
+
+/* ── 01 · Boat race: site + a working model of the one-time-use scan ─────── */
 
 // Decorative matrix (not a real QR), seeded so server and client agree.
 const QR = (() => {
@@ -27,7 +73,7 @@ const QR = (() => {
   return { n, d };
 })();
 
-function Gatepass() {
+function BoatRace() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.7 });
   const [scans, setScans] = useState(0);
@@ -53,13 +99,14 @@ function Gatepass() {
   const tone = { scanning: "text-mute", idle: "text-mute", admitted: "text-accent", rejected: "text-warn" }[state];
 
   return (
-    <div ref={ref} className="flex h-full flex-col items-center justify-between gap-8 p-6 md:p-10">
-      <div className="isolate relative w-full max-w-[min(17rem,32svh)] -rotate-3 bg-bone p-5 text-ink">
-        <span className="absolute -left-2.5 top-[4.6rem] size-5 rounded-full bg-ink" />
-        <span className="absolute -right-2.5 top-[4.6rem] size-5 rounded-full bg-ink" />
-        <p className="label text-ink/60">Nehru Trophy Boat Race · 2026</p>
-        <p className="display mt-2 text-4xl">Gatepass</p>
-        <div className="my-4 border-t border-dashed border-ink/30" />
+    <div ref={ref} className={stage}>
+      <Browser url="nehrutrophyboatrace.org">
+        <Shot src="/work/ntbr-desktop.jpg" alt="Nehru Trophy Boat Race 2026 website home page" />
+      </Browser>
+
+      <div className={`isolate absolute -bottom-4 right-3 w-[27%] min-w-28 rotate-3 bg-bone p-[4.5%] text-ink md:-right-4 lg:p-3.5 ${float}`}>
+        <p className="display text-lg md:text-2xl">Gatepass</p>
+        <div className="my-2 border-t border-dashed border-ink/30" />
         <div className="relative overflow-hidden">
           <svg viewBox={`0 0 ${QR.n} ${QR.n}`} className="block w-full" shapeRendering="crispEdges" aria-hidden>
             <path d={QR.d} fill="currentColor" />
@@ -73,152 +120,96 @@ function Gatepass() {
             />
           )}
         </div>
-        <div className="label mt-4 flex justify-between text-ink/60">
-          <span>Premium seat</span>
-          <span>Single entry</span>
-        </div>
+        <p className="label mt-2 text-[0.5625rem] text-ink/60">Single entry</p>
       </div>
 
-      <div className="w-full max-w-sm">
-        <div className="flex items-center justify-between border-t border-line pt-4">
-          <p className={`label ${tone}`} role="status">
-            <span className="mr-2 inline-block size-1.5 rounded-full bg-current align-middle" />
-            {status}
-          </p>
-          <div className="label flex gap-4">
-            {scans > 1 && !busy && (
-              <button onClick={() => setScans(0)} className="text-mute transition-colors duration-150 hover:text-bone">
-                Reset
-              </button>
-            )}
-            <button
-              onClick={() => setBusy(true)}
-              disabled={busy}
-              className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-accent hover:text-accent active:border-volt active:bg-volt active:text-night disabled:pointer-events-none disabled:opacity-40"
-            >
-              {scans ? "Scan again" : "Scan"}
-            </button>
-          </div>
-        </div>
-        <p className="mt-3 text-xs text-mute">
-          Try it twice. The second scan is refused — the same atomic check that stopped duplicate entry on race day.
+      <div className="label mt-5 flex max-w-[68%] flex-wrap items-center gap-x-4 gap-y-2">
+        <button
+          onClick={() => setBusy(true)}
+          disabled={busy}
+          className="border border-line px-3 py-2 text-bone transition-colors duration-150 hover:border-accent hover:text-accent active:border-volt active:bg-volt active:text-night disabled:pointer-events-none disabled:opacity-40"
+        >
+          {scans ? "Scan again" : "Scan the pass"}
+        </button>
+        <p className={tone} role="status">
+          <span className="mr-2 inline-block size-1.5 rounded-full bg-current align-middle" />
+          {status}
         </p>
+        {scans > 1 && !busy && (
+          <button onClick={() => setScans(0)} className="text-mute transition-colors duration-150 hover:text-bone">
+            Reset
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-/* ── 02 · Order pipeline ─────────────────────────────────────────────────── */
+/* ── 02 · Three stores, switchable ───────────────────────────────────────── */
 
-const flows = {
-  Checkout: [
-    ["Payment webhook", "Signature verified"],
-    ["Stock", "Reserved atomically"],
-    ["Coupon", "Redeemed"],
-    ["Shipping", "Priced by zone"],
-    ["Invoice", "PDF generated"],
-    ["Customer", "Email + WhatsApp sent"],
-  ],
-  Enquiry: [
-    ["Catalogue", "Filtered by spec"],
-    ["Mega-menu", "Category found"],
-    ["Shortlist", "Products collected"],
-    ["Enquiry", "Sent to WhatsApp"],
-  ],
-} as const;
+const stores = [
+  { name: "Linen Centre", url: "linencentre.com", slug: "linen" },
+  { name: "Image Cottons", url: "imagecottons.in", slug: "imagecottons" },
+  { name: "Build Crest", url: "buildcrest.ae", slug: "buildcrest" },
+];
 
-function Pipeline() {
-  const [tab, setTab] = useState<keyof typeof flows>("Checkout");
+function Stores() {
+  const [active, setActive] = useState(0);
   return (
-    <div className="flex h-full flex-col p-6 md:p-10">
-      <div className="label flex flex-wrap items-center justify-between gap-3">
-        <div role="tablist" aria-label="Flow" className="flex">
-          {(Object.keys(flows) as (keyof typeof flows)[]).map((t) => (
-            <button
-              key={t}
-              role="tab"
-              aria-selected={tab === t}
-              onClick={() => setTab(t)}
-              className={`border px-3 py-2 transition-colors duration-150 ${tab === t ? "border-bone bg-bone text-ink" : "border-line text-mute hover:text-bone"}`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-        <span className="text-mute">{tab === "Checkout" ? "Linen Centre · Image Cottons" : "Build Crest · UAE"}</span>
-      </div>
-
-      <motion.ol
-        key={tab}
-        className="mt-6 flex-1"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ staggerChildren: 0.09 }}
-      >
-        {flows[tab].map(([step, result], i) => (
-          <motion.li
-            key={step}
-            variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0, transition: { duration: 0.5, ease } } }}
-            className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-2 border-b border-line py-3 text-sm"
+    <div className={stage}>
+      <div role="tablist" aria-label="Store" className="label mb-4 flex">
+        {stores.map((s, i) => (
+          <button
+            key={s.slug}
+            role="tab"
+            aria-selected={active === i}
+            onClick={() => setActive(i)}
+            className={`-ml-px border px-3 py-2 transition-colors duration-150 first:ml-0 ${active === i ? "relative border-bone bg-bone text-ink" : "border-line text-mute hover:text-bone"}`}
           >
-            <span className="label text-mute">{String(i + 1).padStart(2, "0")}</span>
-            <span>{step}</span>
-            <span className="label text-accent">✓ {result}</span>
-          </motion.li>
+            {s.name}
+          </button>
         ))}
-      </motion.ol>
-
-      <p className="mt-6 flex items-end justify-between">
-        <span className="display text-6xl md:text-7xl">200+</span>
-        <span className="label pb-1 text-mute">Orders / month</span>
-      </p>
+      </div>
+      <Browser url={stores[active].url}>
+        {stores.map((s, i) => (
+          <Shot key={s.slug} src={`/work/${s.slug}-desktop.jpg`} alt={`${s.name} storefront home page`} show={active === i} />
+        ))}
+      </Browser>
+      <Phone>
+        {stores.map((s, i) => (
+          <Image
+            key={s.slug}
+            src={`/work/${s.slug}-mobile.jpg`}
+            alt={`${s.name} on mobile`}
+            width={520}
+            height={1125}
+            sizes="(min-width: 1024px) 14vw, 24vw"
+            className={`col-start-1 row-start-1 block h-auto w-full transition-opacity duration-500 ease-out ${active === i ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
+      </Phone>
     </div>
   );
 }
 
-/* ── 03 · ERP module grid ────────────────────────────────────────────────── */
+/* ── 03 · ERP ────────────────────────────────────────────────────────────── */
 
-const domains = ["Operations & supply chain", "Finance & tax", "Sales & CRM", "HR & governance", "Analytics"];
-
-function Modules() {
+function Erp() {
   return (
-    <div className="flex h-full flex-col justify-between gap-8 p-6 md:p-10">
-      <motion.ul
-        className="grid grid-cols-8 gap-1.5"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ staggerChildren: 0.025 }}
-        aria-label="38 modules"
-      >
-        {Array.from({ length: 38 }, (_, i) => (
-          <motion.li
-            key={i}
-            variants={{ hidden: { opacity: 0, scale: 0.6 }, show: { opacity: 1, scale: 1, transition: { duration: 0.4, ease } } }}
-            className="label flex aspect-square items-end border border-line p-1 text-[0.5625rem] text-mute transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-night"
-          >
-            {String(i + 1).padStart(2, "0")}
-          </motion.li>
-        ))}
-      </motion.ul>
-      <div>
-        <ul className="label flex flex-wrap gap-x-4 gap-y-1 text-mute">
-          {domains.map((d) => (
-            <li key={d}>{d}</li>
-          ))}
-        </ul>
-        <dl className="label mt-5 grid grid-cols-2 border-t border-line pt-4">
-          <div>
-            <dt className="text-mute">Frontend</dt>
-            <dd className="mt-1 text-accent">Deployed · Vercel</dd>
-          </div>
-          <div>
-            <dt className="text-mute">Django API</dt>
-            <dd className="mt-1 text-bone">Integration in progress</dd>
-          </div>
-        </dl>
-      </div>
+    <div className={stage}>
+      <Browser url="CipherPeak ERP · Executive dashboard">
+        <Shot src="/work/erp-exec.jpg" alt="CipherPeak ERP executive dashboard with revenue, cash and sales funnel widgets" />
+      </Browser>
+      <Browser url="Modules" className={`absolute -bottom-6 right-3 w-[46%] md:-right-4 ${float}`}>
+        <Image
+          src="/work/erp-desktop.jpg"
+          alt="CipherPeak ERP home screen listing the module groups"
+          width={1600}
+          height={1000}
+          sizes="(min-width: 1024px) 26vw, 44vw"
+          className="block h-auto w-full"
+        />
+      </Browser>
     </div>
   );
 }
@@ -228,38 +219,39 @@ function Modules() {
 const projects = [
   {
     title: "Nehru Trophy Boat Race",
-    kind: "Event site & ticketing platform",
+    kind: "Event site, online booking and the scanner used at the gates on race day.",
     year: "2026",
     stack: ["Next.js", "Supabase", "PWA", "Airpay"],
-    points: [
-      "Booking flow with quota-based tiers, temporary seat holds and a payment webhook safe against repeated calls.",
-      "Role-based admin — dashboard, orders, attendee search, scan log — with 32,125 physical serials loaded for digital gatepasses.",
-      "Installable scanner PWA used by gate volunteers to verify 500+ premium-seat attendees.",
+    facts: [
+      ["32,125", "ticket serials loaded"],
+      ["500+", "scanned at the gates"],
+      ["1×", "entry per pass, enforced"],
     ],
-    Visual: Gatepass,
+    link: "https://www.nehrutrophyboatrace.org",
+    Visual: BoatRace,
   },
   {
     title: "Three live stores",
-    kind: "Linen Centre · Image Cottons · Build Crest",
+    kind: "Storefront, custom admin panel and Supabase backend for each brand.",
     year: "2025–26",
     stack: ["Next.js", "TypeScript", "Supabase", "Razorpay"],
-    points: [
-      "Each platform: a Next.js storefront, a custom React admin panel and Postgres with row-level security.",
-      "Checkout with signature-verified webhooks, atomic stock reservation, coupons, zone shipping and invoice PDFs.",
-      "Admin panels with role-based access for variants, orders, refunds, reporting and CSV export.",
+    facts: [
+      ["3", "platforms launched"],
+      ["200+", "orders a month"],
+      ["RLS", "row-level security"],
     ],
-    Visual: Pipeline,
+    Visual: Stores,
   },
   {
     title: "CipherPeak ERP",
-    kind: "38-module enterprise platform",
+    kind: "Web frontend for an enterprise platform, with a Django API in integration.",
     year: "Ongoing",
     stack: ["React", "Vite", "Django"],
-    points: [
-      "Built the web frontend across operations, finance and tax, sales and CRM, HR and analytics.",
-      "Directed the backend developer building the Django API and defined the integration contract between the two.",
+    facts: [
+      ["38", "modules"],
+      ["5", "business domains"],
     ],
-    Visual: Modules,
+    Visual: Erp,
   },
 ];
 
@@ -271,7 +263,7 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
     <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center">
       <motion.article
         style={{ scale, top: `${i * 20}px` }}
-        className="relative grid w-full origin-top border lg:will-change-transform border-line bg-ink-2 max-lg:transform-none! lg:h-[min(78svh,43rem)] lg:grid-cols-[1fr_1.05fr]"
+        className="group/card relative grid w-full origin-top border border-line bg-ink-2 max-lg:transform-none! lg:h-[min(78svh,43rem)] lg:grid-cols-[0.72fr_1.28fr] lg:will-change-transform"
       >
         <div className="flex flex-col justify-between gap-10 p-6 md:p-10">
           <div className="label flex justify-between text-mute">
@@ -281,24 +273,31 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
             <span>{p.year}</span>
           </div>
           <div>
-            <h3 className="display text-[clamp(2.5rem,5vw,4.75rem)]">{p.title}</h3>
-            <p className="mt-3 text-mute">{p.kind}</p>
-            <ul className="mt-8 max-w-[52ch] space-y-3 text-[0.9375rem] text-bone/85">
-              {p.points.map((pt) => (
-                <li key={pt} className="grid grid-cols-[1.25rem_1fr]">
-                  <span className="text-accent">—</span>
-                  {pt}
-                </li>
+            <h3 className="display text-[clamp(2.5rem,4.4vw,4.25rem)]">{p.title}</h3>
+            <p className="mt-4 max-w-[34ch] text-mute">{p.kind}</p>
+            <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-line pt-5">
+              {p.facts.map(([n, label]) => (
+                <div key={label}>
+                  <dd className="display text-3xl text-accent md:text-4xl">{n}</dd>
+                  <dt className="mt-1.5 text-xs leading-snug text-mute">{label}</dt>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="label flex flex-wrap items-end justify-between gap-3 text-mute">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1">
+              {p.stack.map((s) => (
+                <li key={s}>{s}</li>
               ))}
             </ul>
+            {p.link && (
+              <a href={p.link} target="_blank" rel="noreferrer" className="text-bone underline decoration-line underline-offset-4 transition-colors duration-150 hover:decoration-accent">
+                Visit site ↗
+              </a>
+            )}
           </div>
-          <ul className="label flex flex-wrap gap-x-5 gap-y-1 text-mute">
-            {p.stack.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
         </div>
-        <div className="border-t border-line bg-ink lg:border-l lg:border-t-0">
+        <div className="flex items-center border-t border-line bg-ink px-6 pb-12 pt-6 md:px-10 lg:border-l lg:border-t-0 lg:py-8">
           <p.Visual />
         </div>
       </motion.article>
@@ -325,6 +324,10 @@ export default function Work() {
           <Card key={p.title} i={i} progress={scrollYProgress} />
         ))}
       </div>
+      <Link href="/works" className="group mt-6 flex items-center justify-between border border-line px-6 py-7 transition-colors duration-150 hover:border-volt hover:bg-volt hover:text-night md:px-10 lg:mt-0">
+        <span className="display widen text-3xl md:text-5xl">See all {works.length} works</span>
+        <span className="display text-3xl md:text-5xl" aria-hidden>→</span>
+      </Link>
     </section>
   );
 }

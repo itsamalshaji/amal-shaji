@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Clock } from "./nav";
 import ReactiveLine from "./reactive-line";
@@ -21,9 +22,14 @@ export default function Contact() {
   return (
     <footer id="contact" className="on-volt relative z-45 bg-volt px-5 pb-6 pt-20 text-night md:px-8 md:pt-32">
       <div className="grid gap-8 lg:grid-cols-12">
-        <p className="label lg:col-span-3">(05) Contact</p>
+        <p className="label lg:col-span-3">Contact</p>
         <p className="max-w-[30ch] text-xl leading-snug md:text-2xl lg:col-span-6">
           Looking for a frontend or technical lead role in the UAE. Available to join immediately.
+        </p>
+        <p className="lg:col-span-3 lg:text-right">
+          <Link href="/contact" className="inline-block border border-night bg-night px-6 py-3.5 font-medium text-volt transition-colors duration-150 hover:bg-volt hover:text-night active:bg-night/80">
+            Send a message →
+          </Link>
         </p>
       </div>
 
