@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "Frontend and full-stack developer, co-founder and technical lead at CipherPeak. React, Next.js, TypeScript, Supabase. Based in Kerala, open to relocate to the UAE.",
 };
 
-export const viewport: Viewport = { themeColor: "#0d0d0b" };
+export const viewport: Viewport = { themeColor: "#eeebe2" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}>
       <body id="top">
-        {/* Apply a saved theme before first paint. */}
+        {/* Light is the default (set on <html>); a saved choice is applied before first paint. */}
         <Script id="theme" strategy="beforeInteractive">
           {`try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`}
         </Script>

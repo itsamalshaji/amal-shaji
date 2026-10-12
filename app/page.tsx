@@ -9,9 +9,9 @@ import Profile from "@/components/profile";
 import { FadeUp, Reveal } from "@/components/reveal";
 import Work from "@/components/work";
 
-// Stand-in until the portrait is supplied: swap for an <Image> of a transparent-background cutout, bottom-aligned so the ring sits behind it.
+// Stand-in until the portrait is supplied: swap for an <Image> of a transparent-background cutout so the ring sits behind it.
 const photo = (
-  <div className="after-load absolute left-[17%] top-[21%] grid size-[70%] place-items-center rounded-full bg-ink-2" style={{ "--d": "900ms" } as React.CSSProperties}>
+  <div className="after-load absolute left-[15%] top-[15%] grid size-[70%] place-items-center rounded-full bg-ink-2" style={{ "--d": "900ms" } as React.CSSProperties}>
     <span className="display text-[clamp(4rem,10vw,9rem)] text-line">AS</span>
   </div>
 );
@@ -75,8 +75,11 @@ export default function Home() {
                   <span aria-hidden className="absolute right-full top-1/2 mr-4 h-0.5 w-screen bg-accent" />
                   I&rsquo;m Amal<span className="sr-only"> Shaji,</span>
                 </span>
-                <span className="after-load mt-4 block text-[clamp(2.5rem,5.4vw,5.25rem)] font-bold leading-[1.05] tracking-[-0.03em]" style={{ "--d": "400ms" } as React.CSSProperties}>
+                <span className="after-load mt-4 block text-[clamp(2.25rem,4.8vw,4.75rem)] font-bold leading-[1.05] tracking-[-0.03em]" style={{ "--d": "400ms" } as React.CSSProperties}>
                   Frontend Developer
+                  <span className="block">
+                    <span className="text-accent">&amp;</span> Team Lead
+                  </span>
                 </span>
               </h1>
               <p className="after-load mt-6 max-w-[44ch] text-mute md:text-lg" style={{ "--d": "500ms" } as React.CSSProperties}>
@@ -103,12 +106,12 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="relative mx-auto aspect-square w-full max-w-[36rem] self-end">
+            <div className="relative mx-auto aspect-square w-full max-w-[36rem]">
               <svg viewBox="0 0 100 100" className="absolute inset-0 size-full overflow-visible" fill="none" aria-hidden>
-                <circle className="hero-ring" cx="52" cy="56" r="35" stroke="var(--volt)" strokeWidth="3" strokeLinecap="square" pathLength={1} transform="rotate(-90 52 56)" />
+                <circle className="hero-ring" cx="50" cy="50" r="35" stroke="var(--volt)" strokeWidth="3" strokeLinecap="square" pathLength={1} transform="rotate(-90 50 50)" />
                 <g className="after-load" stroke="var(--accent)" strokeWidth="0.45" strokeLinejoin="round" style={{ "--d": "1100ms" } as React.CSSProperties}>
-                  <path d="M13 17 2 23.5 13 30v-3.6L8.2 23.5 13 20.6Z" />
-                  <path d="M88 76 99 82.500 88 89v-3.6l4.8-2.9-4.8-2.9Z" />
+                  <path d="M11 11 0 17.5 11 24v-3.6L6.2 17.5 11 14.6Z" />
+                  <path d="M89 76 100 82.5 89 89v-3.6l4.8-2.9-4.8-2.9Z" />
                 </g>
               </svg>
               {photo}
