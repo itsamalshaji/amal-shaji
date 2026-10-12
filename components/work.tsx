@@ -269,11 +269,21 @@ function Card({ i, progress }: { i: number; progress: MotionValue<number> }) {
   const p = projects[i];
   const n = projects.length;
   const scale = useTransform(progress, [i / n, 1], [1, 1 - (n - 1 - i) * 0.04]);
+
+  // Below lg a card is usually taller than the screen, so it pins by its bottom edge; .stack-card needs its height for that.
+  const wrap = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = wrap.current!;
+    const ro = new ResizeObserver(() => el.style.setProperty("--h", `${el.offsetHeight}px`));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center">
+    <div ref={wrap} style={{ "--pin": `${12 + i * 10}px`, "--step": `${i * 20}px` } as React.CSSProperties} className="stack-card lg:flex lg:h-svh lg:items-center">
       <motion.article
-        style={{ scale, top: `${i * 20}px` }}
-        className="group/card relative grid w-full origin-top border border-line bg-ink-2 max-lg:transform-none! lg:h-[min(78svh,43rem)] lg:grid-cols-[0.72fr_1.28fr] lg:will-change-transform"
+        style={{ scale }}
+        className="group/card relative grid w-full origin-bottom border border-line bg-ink-2 will-change-transform lg:top-[var(--step)] lg:h-[min(78svh,43rem)] lg:origin-top lg:grid-cols-[0.72fr_1.28fr]"
       >
         <div className="flex flex-col justify-between gap-10 p-6 md:p-10">
           <div className="label flex justify-between text-mute">
