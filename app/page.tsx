@@ -6,6 +6,7 @@ import Link from "next/link";
 import Contact from "@/components/contact";
 import Faq from "@/components/faq";
 import JsonLd from "@/components/json-ld";
+import ReactiveLine from "@/components/reactive-line";
 import Gallery from "@/components/gallery";
 import Profile from "@/components/profile";
 import { FadeUp, Reveal } from "@/components/reveal";
@@ -79,9 +80,12 @@ export default function Home() {
               </p>
               {/* The headline is the largest paint; it renders immediately (under the preloader) rather than fading in after hydration. */}
               <h1>
-                <span className="relative ml-14 mt-6 block w-fit text-3xl font-light tracking-tight md:ml-20 md:text-[2.75rem] md:leading-tight" style={{ "--d": "300ms" } as React.CSSProperties}>
+                <span className="relative ml-14 mt-6 flex w-fit items-baseline gap-3 md:ml-20 md:gap-4">
                   <span aria-hidden className="absolute right-full top-1/2 mr-4 h-0.5 w-screen bg-accent" />
-                  I&rsquo;m Amal<span className="sr-only"> Shaji,</span>
+                  <span className="text-3xl font-light tracking-tight md:text-[2.75rem]">I&rsquo;m</span>
+                  <span className="sr-only">Amal Shaji,</span>
+                  {/* The name reacts to the cursor: letters near it widen and gain weight. */}
+                  <ReactiveLine text="AMAL SHAJI" fit={false} intro className="inline-flex text-[clamp(3rem,6.2vw,6rem)]" />
                 </span>
                 <span className="mt-4 block text-[clamp(2.25rem,4.8vw,4.75rem)] font-bold leading-[1.05] tracking-[-0.03em]" style={{ "--d": "400ms" } as React.CSSProperties}>
                   Frontend Developer

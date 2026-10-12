@@ -7,18 +7,20 @@ const NEAR = { wdth: 150, wght: 900 };
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /**
- * A line of display type that fits its container and whose letters
- * widen toward the cursor, driven by the font's width/weight axes.
+ * A line of display type whose letters widen toward the cursor, driven by the font's width/weight axes.
+ * By default it also scales itself to span its container; with `fit={false}` it keeps the font size it is given.
  */
 export default function ReactiveLine({
   text,
   fill = 0.76,
+  fit: fitWidth = true,
   start = 0,
   intro = false,
   className = "",
 }: {
   text: string;
   fill?: number; // share of the container the letters occupy at rest; the remainder is tracking the wide letters eat into
+  fit?: boolean;
   start?: number; // stagger offset for the intro
   intro?: boolean;
   className?: string;
@@ -40,6 +42,7 @@ export default function ReactiveLine({
     };
 
     const fit = () => {
+      if (!fitWidth) return letters.forEach((_, i) => apply(i));
       const width = el.clientWidth;
       if (!width) return;
       cur.fill(0);
@@ -106,13 +109,13 @@ export default function ReactiveLine({
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);
     };
-  }, [fill]);
+  }, [fill, fitWidth]);
 
   return (
     <span
       ref={root}
       aria-hidden
-      className={`display w-full justify-between overflow-x-visible overflow-y-clip whitespace-nowrap pt-[0.04em] text-[18vw] leading-[0.8] ${className}`}
+      className={`display overflow-x-visible overflow-y-clip whitespace-nowrap pt-[0.04em] leading-[0.8] ${fitWidth ? "w-full justify-between text-[18vw]" : ""} ${className}`}
     >
       {[...text].map((ch, i) =>
         ch === " " ? (

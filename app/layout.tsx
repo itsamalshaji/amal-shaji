@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anybody, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Anybody, JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import Nav from "@/components/nav";
 import Preloader from "@/components/preloader";
@@ -8,7 +8,7 @@ import { site, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const display = Anybody({ variable: "--f-display", subsets: ["latin"], axes: ["wdth"] });
-const body = Instrument_Sans({ variable: "--f-body", subsets: ["latin"] });
+const body = Manrope({ variable: "--f-body", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--f-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
