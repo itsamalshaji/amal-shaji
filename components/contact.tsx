@@ -51,7 +51,7 @@ export default function Contact() {
           <a
             key={href}
             href={href}
-            {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
+            {...(href.startsWith("http") ? { target: "_blank", rel: "me noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
             className="bg-volt p-5 transition-colors duration-150 hover:bg-night hover:text-volt active:bg-night active:text-volt"
           >
             <span className="label block opacity-60">{label}</span>

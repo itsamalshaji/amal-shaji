@@ -15,6 +15,7 @@ const details = [
   ["Email", "itsamalshaji@gmail.com", "mailto:itsamalshaji@gmail.com"],
   ["Phone", "+91 97467 11096", "tel:+919746711096"],
   ["LinkedIn", "in/itsamalshaji ↗", "https://linkedin.com/in/itsamalshaji"],
+  ["GitHub", "itsamalshaji ↗", "https://github.com/itsamalshaji"],
   ["Résumé", "Download PDF ↓", "/Amal-Shaji-CV.pdf"],
 ];
 
@@ -43,7 +44,7 @@ export default function ContactPage() {
                   <dd>
                     <a
                       href={href}
-                      {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
+                      {...(href.startsWith("http") ? { target: "_blank", rel: "me noreferrer" } : href.endsWith(".pdf") ? { download: true } : {})}
                       className="normal-case tracking-normal underline decoration-line underline-offset-4 transition-colors duration-150 hover:decoration-accent"
                     >
                       {v}

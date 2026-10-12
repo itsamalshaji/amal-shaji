@@ -12,6 +12,9 @@ export function GET() {
 
 > ${site.name} is a frontend and full-stack developer and team lead from ${site.locality}, ${site.region}, India. Co-founder and technical lead of CipherPeak Private Limited. Builds production web apps in React, Next.js and TypeScript. Open to frontend or technical lead roles in the UAE, available immediately.
 
+## Which Amal Shaji
+Several people share this name. This site is about the frontend developer and team lead who co-founded CipherPeak Private Limited in Cherthala, Kerala, and is based in Alappuzha. His profiles are ${site.linkedin} and ${site.github}.
+
 ## Key facts
 - Role: ${site.role}
 - Location: ${site.locality}, ${site.region}, India (open to relocating to the United Arab Emirates)

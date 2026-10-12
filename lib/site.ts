@@ -1,7 +1,7 @@
 // Canonical origin. On Vercel this follows the project's production domain automatically,
 // so adding a custom domain needs no code change; NEXT_PUBLIC_SITE_URL overrides it.
 const production = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? (production ? `https://${production}` : "https://amal-shaji.vercel.app")).replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? (production ? `https://${production}` : "https://amalshaji.vercel.app")).replace(/\/$/, "");
 
 export const site = {
   name: "Amal Shaji",

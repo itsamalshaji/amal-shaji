@@ -14,7 +14,7 @@ import Work from "@/components/work";
 import { homeLd, pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata = pageMeta({ title: site.title, description: site.description, path: "/" });
+export const metadata = pageMeta({ title: site.title, description: site.description, path: "/", profile: true });
 
 // Stand-in until the portrait is supplied: swap for an <Image> of a transparent-background cutout so the ring sits behind it.
 const photo = (
