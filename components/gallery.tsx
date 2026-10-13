@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionTemplate, useScroll, useTransform } from "motion/react";
+import { useInView, useMotionValueEvent, useScroll } from "motion/react";
 import Image from "next/image";
-import { useRef } from "react";
+import { type RefObject, useRef, useSyncExternalStore } from "react";
 
 const rows = [
   [
@@ -27,30 +27,46 @@ const rows = [
   ],
 ];
 
-/** Two bands of real screens that slide against each other as the page scrolls. */
+const noSubscribe = () => () => {};
+
+/** Browsers without scroll timelines: the same slide, written from the scroll position. */
+function JsBands({ target }: { target: RefObject<HTMLElement | null> }) {
+  const { scrollYProgress } = useScroll({ target, offset: ["start end", "end start"] });
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    target.current?.querySelectorAll<HTMLElement>(".band").forEach((band, i) => {
+      const t = ((i ? 1 - p : p) * 100).toFixed(3);
+      band.style.transform = `translateX(calc(${t}vw - ${t}%))`;
+    });
+  });
+  return null;
+}
+
+/**
+ * Two bands of real screens that slide against each other as the page scrolls. Each travels its full overflow
+ * (own width minus the viewport), so every screen passes through. The movement itself lives in globals.css (`.band`).
+ */
 export default function Gallery() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  // Each band travels its full overflow (own width minus the viewport), so every screen passes through.
-  const out = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const back = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const x = [useMotionTemplate`translateX(calc(-${out}% + ${out}vw))`, useMotionTemplate`translateX(calc(-${back}% + ${back}vw))`];
+  const js = useSyncExternalStore(noSubscribe, () => !CSS.supports("animation-timeline: view()"), () => false);
+  // Screens parked far off to the side would otherwise start loading and decoding mid-slide.
+  const near = useInView(ref, { once: true, margin: "100% 0px" });
 
   return (
-    <section ref={ref} aria-label="Screens from shipped projects" className="overflow-hidden py-16 md:py-24">
+    <section ref={ref} aria-label="Screens from shipped projects" className="gallery overflow-hidden py-16 md:py-24">
+      {js && <JsBands target={ref} />}
       <p className="label mb-6 flex justify-between gutter text-mute">
         <span>Screens from shipped projects</span>
         <span>Not mockups</span>
       </p>
       <div className="space-y-3 md:space-y-4">
         {rows.map((row, r) => (
-          <motion.div key={r} style={{ transform: x[r] }} className="flex w-max gap-3 will-change-transform md:gap-4">
+          <div key={r} className="band flex w-max gap-3 will-change-transform md:gap-4">
             {row.map(([src, alt]) => (
               <figure key={src} className="w-[68vw] shrink-0 overflow-hidden border border-line sm:w-[42vw] lg:w-[30vw]">
-                <Image src={src} alt={alt} width={1200} height={750} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 68vw" className="block h-auto w-full" />
+                <Image src={src} alt={alt} width={1200} height={750} loading={near ? "eager" : "lazy"} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 42vw, 68vw" className="block h-auto w-full" />
               </figure>
             ))}
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

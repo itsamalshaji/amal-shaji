@@ -64,8 +64,7 @@ export default function Preloader() {
       onTransitionEnd={(e) => e.target === e.currentTarget && e.propertyName === "transform" && setPhase("done")}
       className="preloader fixed inset-0 z-70 flex flex-col justify-between overflow-hidden bg-volt p-5 text-night md:p-8"
     >
-      <div className="label flex justify-between">
-        <span className="whitespace-nowrap">Portfolio · 2026</span>
+      <div className="label flex min-h-4 justify-end">
         <span className="max-sm:hidden">Frontend Developer &amp; Team Lead</span>
       </div>
 

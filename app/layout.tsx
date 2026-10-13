@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
 };
 
-export const viewport: Viewport = { themeColor: "#eeebe2" };
+export const viewport: Viewport = { themeColor: "#0d0d0b" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={`${display.variable} ${body.variable} antialiased`}>
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${display.variable} ${body.variable} antialiased`}>
       <body id="top">
         {/* Light is the default (set on <html>); a saved choice is applied before first paint. */}
         <Script id="theme" strategy="beforeInteractive">

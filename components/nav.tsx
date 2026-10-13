@@ -35,8 +35,11 @@ function ThemeToggle() {
       } catch {}
     };
     const r = e.currentTarget.getBoundingClientRect();
-    root.style.setProperty("--tx", `${r.left + r.width / 2}px`);
-    root.style.setProperty("--ty", `${r.top + r.height / 2}px`);
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    root.style.setProperty("--tx", `${x}px`);
+    root.style.setProperty("--ty", `${y}px`);
+    root.style.setProperty("--tr", `${Math.ceil(Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)))}px`);
     if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) apply();
     else document.startViewTransition(apply);
   };
